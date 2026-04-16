@@ -3,11 +3,12 @@ import type { BuilderState, ChartMode, ParsedDataset, SeriesMapping, ChartPreset
 
 interface BuilderStore extends BuilderState {
   setMode: (mode: ChartMode) => void;
-  setDataset: (dataset: ParsedDataset) => void;
+  setDataset: (dataset: ParsedDataset | undefined) => void;
   setMapping: (mapping: SeriesMapping) => void;
   setPreset: (preset: ChartPreset) => void;
   setThemeId: (themeId: string) => void;
   setGeneratedOptions: (options: Record<string, unknown>) => void;
+  clearDataset: () => void;
   reset: () => void;
 }
 
@@ -25,5 +26,6 @@ export const useBuilderStore = create<BuilderStore>((set) => ({
   setPreset: (preset) => set({ preset }),
   setThemeId: (themeId) => set({ themeId }),
   setGeneratedOptions: (generatedOptions) => set({ generatedOptions }),
+  clearDataset: () => set({ dataset: undefined, mapping: {} }),
   reset: () => set(initialState),
 }));
