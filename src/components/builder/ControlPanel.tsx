@@ -3,12 +3,20 @@ import CSVUpload from '../../features/csv/CSVUpload';
 import ColumnMapping from '../../features/mapping/ColumnMapping';
 import ChartTypeSelector from '../../features/presets/ChartTypeSelector';
 import ThemeSelector from '../../features/themes/ThemeSelector';
+import ExportControls from '../../features/export/ExportControls';
 import { validateMapping } from '../../lib/validation/mappingValidator';
+import type { ExportSettings } from '../../features/export/ExportControls';
 
 const ControlPanel = () => {
   const { mode, dataset, mapping } = useBuilderStore();
   
   const mappingValidation = dataset ? validateMapping(mapping, mode) : null;
+
+  const handleExport = (settings: ExportSettings) => {
+    // Simple export implementation - for now just show alert
+    alert(`Exporting chart as ${settings.format} (${settings.width}x${settings.height}px)`);
+    console.log('Export settings:', settings);
+  };
 
   return (
     <div className="p-6">
@@ -111,8 +119,8 @@ const ControlPanel = () => {
         </div>
 
         <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-2">5. Export</h3>
-          <p className="text-sm text-gray-500">Export options coming in Stage 6</p>
+          <h3 className="font-medium text-gray-900 mb-4">5. Export</h3>
+          <ExportControls onExport={handleExport} />
         </div>
       </div>
     </div>
