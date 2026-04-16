@@ -114,11 +114,24 @@ export function generateHighchartsOptions(
         } else {
           // Standard chart data format
           if (mapping.xField) {
-            seriesData = rows.map(row => ({
-              x: row[mapping.xField!],
-              y: row[yField] as number,
-              name: mapping.labelField ? row[mapping.labelField] : undefined
-            })).filter(point => point.y !== null && point.y !== undefined);
+            // Check if xField is a date type
+            const xFieldType = dataset.inferredTypes[mapping.xField];
+            const isDateField = xFieldType === 'date';
+            
+            if (isDateField) {
+              // For date fields, use [timestamp, value] format
+              seriesData = rows.map(row => {
+                const date = new Date(row[mapping.xField!] as string).getTime();
+                return [date, row[yField] as number];
+              }).filter(point => point.every(val => val !== null && val !== undefined));
+            } else {
+              // For non-date fields, use {x, y} format
+              seriesData = rows.map(row => ({
+                x: row[mapping.xField!],
+                y: row[yField] as number,
+                name: mapping.labelField ? row[mapping.labelField] : undefined
+              })).filter(point => point.y !== null && point.y !== undefined);
+            }
           } else {
             seriesData = rows.map(row => row[yField] as number).filter(val => val !== null && val !== undefined);
           }
@@ -138,14 +151,31 @@ export function generateHighchartsOptions(
   // Configure axes
   if (!isStockChart) {
     if (mapping.xField && preset !== 'pie') {
-      const xValues = [...new Set(rows.map(row => row[mapping.xField!]))].filter(val => val !== null);
-      options.xAxis = {
-        categories: xValues,
-        title: { text: mapping.xField },
-        labels: {
-          style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' }
-        }
-      };
+      // Check if xField is a date type
+      const xFieldType = dataset.inferredTypes[mapping.xField];
+      const isDateField = xFieldType === 'date';
+      
+      if (isDateField) {
+        // For date fields, use datetime xAxis with timestamp data
+        options.xAxis = {
+          type: 'datetime',
+          title: { text: mapping.xField },
+          labels: {
+            style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' },
+            format: '{value: %Y-%m-%d}'
+          }
+        };
+      } else {
+        // For non-date fields, use categories
+        const xValues = [...new Set(rows.map(row => row[mapping.xField!]))].filter(val => val !== null);
+        options.xAxis = {
+          categories: xValues,
+          title: { text: mapping.xField },
+          labels: {
+            style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' }
+          }
+        };
+      }
     }
 
     options.yAxis = options.yAxis || {
