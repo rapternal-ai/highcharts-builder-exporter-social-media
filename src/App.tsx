@@ -7,6 +7,16 @@ function App() {
   const { mode, setMode, dataset, mapping, preset } = useBuilderStore();
   
   const canShowChart = dataset && mapping.yFields && mapping.yFields.length > 0 && preset;
+  
+  // Debug logging to help identify the issue
+  console.log('App state debug:', {
+    hasDataset: !!dataset,
+    hasYFields: !!(mapping.yFields && mapping.yFields.length > 0),
+    hasPreset: !!preset,
+    canShowChart,
+    mapping,
+    preset
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -56,6 +66,26 @@ function App() {
           ) : dataset ? (
             <div className="h-full bg-white rounded-lg border border-gray-200 p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Data Preview</h2>
+              
+              {/* Debug info to help user see what's missing */}
+              <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <h4 className="text-sm font-medium text-yellow-800 mb-2">Chart Status</h4>
+                <div className="text-sm text-yellow-700 space-y-1">
+                  <div>✅ Data uploaded: {dataset.sourceFileName}</div>
+                  <div className={mapping.yFields && mapping.yFields.length > 0 ? "text-green-700" : "text-red-700"}>
+                    {mapping.yFields && mapping.yFields.length > 0 ? "✅" : "❌"} Y-axis mapped: {mapping.yFields?.length || 0} field(s)
+                  </div>
+                  <div className={preset ? "text-green-700" : "text-red-700"}>
+                    {preset ? "✅" : "❌"} Chart type selected: {preset || "None"}
+                  </div>
+                  {!canShowChart && (
+                    <div className="mt-2 text-yellow-800 font-medium">
+                      → Complete mapping and select a chart type to see your chart
+                    </div>
+                  )}
+                </div>
+              </div>
+              
               <CSVPreview />
             </div>
           ) : (

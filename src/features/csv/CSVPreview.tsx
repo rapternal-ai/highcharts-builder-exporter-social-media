@@ -68,29 +68,35 @@ const CSVPreview = () => {
       {/* Data Preview */}
       <div>
         <h4 className="font-medium text-gray-900 mb-3">Data Preview (first 5 rows)</h4>
-        <div className="overflow-x-auto border border-gray-200 rounded-lg">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="overflow-x-auto border border-gray-200 rounded-lg max-h-96">
+          <table className="w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50 sticky top-0">
               <tr>
-                {headers.map((header) => (
+                {headers.slice(0, 6).map((header) => (
                   <th
                     key={header}
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ minWidth: '100px', maxWidth: '150px' }}
                   >
                     <div className="flex items-center space-x-1">
                       <span>{getTypeIcon(inferredTypes[header])}</span>
-                      <span className="truncate">{header}</span>
+                      <span className="truncate" title={header}>{header}</span>
                     </div>
                   </th>
                 ))}
+                {headers.length > 6 && (
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
+                    +{headers.length - 6} more
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {previewRows.map((row, index) => (
                 <tr key={index} className="hover:bg-gray-50">
-                  {headers.map((header) => (
-                    <td key={header} className="px-4 py-3 text-sm text-gray-900">
-                      <div className="max-w-xs truncate">
+                  {headers.slice(0, 6).map((header) => (
+                    <td key={header} className="px-3 py-2 text-sm text-gray-900" style={{ maxWidth: '150px' }}>
+                      <div className="truncate" title={String(row[header] || '')}>
                         {row[header] === null ? (
                           <span className="text-gray-400 italic">null</span>
                         ) : (
@@ -99,17 +105,25 @@ const CSVPreview = () => {
                       </div>
                     </td>
                   ))}
+                  {headers.length > 6 && (
+                    <td className="px-3 py-2 text-sm text-gray-500">
+                      ...
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         
-        {rows.length > 5 && (
-          <p className="text-sm text-gray-500 mt-2">
-            ... and {rows.length - 5} more rows
-          </p>
-        )}
+        <div className="mt-2 flex justify-between text-sm text-gray-500">
+          <span>
+            {rows.length > 5 && `... and ${rows.length - 5} more rows`}
+          </span>
+          <span>
+            {headers.length > 6 && `Showing 6 of ${headers.length} columns`}
+          </span>
+        </div>
       </div>
     </div>
   );

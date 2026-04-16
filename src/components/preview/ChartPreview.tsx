@@ -7,7 +7,7 @@ import { validateMapping } from '../../lib/validation/mappingValidator';
 
 const ChartPreview = () => {
   const { mode, dataset, mapping, preset, themeId } = useBuilderStore();
-  const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
+  const chartComponentRef = useRef<any>(null);
   const [chartOptions, setChartOptions] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 

@@ -235,6 +235,12 @@ select {
 .disabled\:opacity-50:disabled { opacity: 0.5; }
 .disabled\:cursor-not-allowed:disabled { cursor: not-allowed; }
 
+.max-h-96 { max-height: 24rem; }
+.sticky { position: sticky; }
+.top-0 { top: 0px; }
+
+.w-full { width: 100%; }
+
 .animate-spin {
   animation: spin 1s linear infinite;
 }
