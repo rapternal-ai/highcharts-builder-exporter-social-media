@@ -1,12 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import Highcharts from 'highcharts';
 import { useBuilderStore } from '../../store/builderStore';
 import { generateHighchartsOptions } from '../../lib/transformers/optionsGenerator';
 import { validateMapping } from '../../lib/validation/mappingValidator';
+
+// Import HighchartsReact using CommonJS syntax to avoid module resolution issues
+const HighchartsReact = require('highcharts-react-official');
 
 const ChartPreview = () => {
   const { mode, dataset, mapping, preset, themeId } = useBuilderStore();
   const [chartOptions, setChartOptions] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+  const chartComponentRef = useRef<any>(null);
 
   const canShowChart = dataset && mapping.yFields && mapping.yFields.length > 0 && preset;
   const mappingValidation = dataset ? validateMapping(mapping, mode, preset) : null;
@@ -52,24 +57,12 @@ const ChartPreview = () => {
             </div>
           </div>
         ) : chartOptions ? (
-          <div className="h-full flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-4xl text-green-500 mb-4">📊</div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Chart Generated Successfully!</h3>
-              <p className="text-gray-600 mb-4">Your {preset} chart is ready with {dataset?.rows.length} data points</p>
-              <div className="p-4 bg-gray-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-2">Chart Configuration:</h4>
-                <div className="text-sm text-gray-700 space-y-1">
-                  <div>Type: {preset}</div>
-                  <div>Y-axis: {mapping.yFields?.join(', ')}</div>
-                  {mapping.xField && <div>X-axis: {mapping.xField}</div>}
-                  {themeId && <div>Theme: {themeId}</div>}
-                </div>
-              </div>
-              <p className="text-sm text-gray-500 mt-4">
-                Highcharts integration temporarily disabled - chart configuration is working correctly
-              </p>
-            </div>
+          <div className="h-full">
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={chartOptions}
+              ref={chartComponentRef}
+            />
           </div>
         ) : (
           <div className="flex items-center justify-center h-full">
