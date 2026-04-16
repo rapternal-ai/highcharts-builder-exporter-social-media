@@ -1,25 +1,8 @@
 import { useBuilderStore } from './store/builderStore';
 import ControlPanel from './components/builder/ControlPanel';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 
 function App() {
   const { mode, setMode } = useBuilderStore();
-
-  // Simple chart options for testing
-  const chartOptions: Highcharts.Options = {
-    title: {
-      text: `Sample ${mode === 'standard' ? 'Standard' : 'Stock'} Chart`
-    },
-    series: [{
-      type: 'line',
-      name: 'Sample Data',
-      data: [1, 2, 3, 4, 5, 6]
-    }],
-    credits: {
-      enabled: false
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -68,11 +51,14 @@ function App() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Chart Preview</h2>
             <p className="text-sm text-gray-600 mb-4">Current mode: {mode}</p>
             
-            <div className="mb-4" style={{height: '400px'}}>
-              <HighchartsReact
-                highcharts={Highcharts}
-                options={chartOptions}
-              />
+            <div className="mb-4 p-8 bg-gray-100 rounded-lg" style={{height: '400px'}}>
+              <div className="flex items-center justify-center h-full">
+                <div className="text-center">
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">Chart Preview</h3>
+                  <p className="text-gray-600">Sample {mode} chart will render here</p>
+                  <p className="text-sm text-gray-500 mt-2">Highcharts integration coming next</p>
+                </div>
+              </div>
             </div>
             
             <div className="mt-4 p-4 bg-blue-50 rounded-lg">
