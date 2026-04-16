@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import { useBuilderStore } from '../../store/builderStore';
 import { generateHighchartsOptions } from '../../lib/transformers/optionsGenerator';
 import { validateMapping } from '../../lib/validation/mappingValidator';
@@ -9,7 +8,18 @@ const ChartPreview = () => {
   const { mode, dataset, mapping, preset, themeId } = useBuilderStore();
   const [chartOptions, setChartOptions] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+  const [HighchartsReact, setHighchartsReact] = useState<any>(null);
   const chartComponentRef = useRef<any>(null);
+
+  // Dynamically import HighchartsReact to avoid module resolution issues
+  useEffect(() => {
+    import('highcharts-react-official').then((module) => {
+      setHighchartsReact(() => module.default);
+    }).catch((err) => {
+      console.error('Failed to load HighchartsReact:', err);
+      setError('Failed to load chart component');
+    });
+  }, []);
 
   const canShowChart = dataset && mapping.yFields && mapping.yFields.length > 0 && preset;
   const mappingValidation = dataset ? validateMapping(mapping, mode, preset) : null;
@@ -54,13 +64,21 @@ const ChartPreview = () => {
               <p className="text-gray-600">{error}</p>
             </div>
           </div>
-        ) : chartOptions ? (
+        ) : chartOptions && HighchartsReact ? (
           <div className="h-full">
             <HighchartsReact
               highcharts={Highcharts}
               options={chartOptions}
               ref={chartComponentRef}
             />
+          </div>
+        ) : chartOptions && !HighchartsReact ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <div className="text-4xl text-blue-500 mb-4">⏳</div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Loading Chart Component...</h3>
+              <p className="text-gray-600">Preparing your chart visualization</p>
+            </div>
           </div>
         ) : (
           <div className="flex items-center justify-center h-full">
