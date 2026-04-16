@@ -1,11 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 import { useBuilderStore } from '../../store/builderStore';
 import { generateHighchartsOptions } from '../../lib/transformers/optionsGenerator';
 import { validateMapping } from '../../lib/validation/mappingValidator';
-
-// Import HighchartsReact using CommonJS syntax to avoid module resolution issues
-const HighchartsReact = require('highcharts-react-official');
 
 const ChartPreview = () => {
   const { mode, dataset, mapping, preset, themeId } = useBuilderStore();
