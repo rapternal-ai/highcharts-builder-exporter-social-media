@@ -1,6 +1,8 @@
 import { useBuilderStore } from '../../store/builderStore';
 import CSVUpload from '../../features/csv/CSVUpload';
 import ColumnMapping from '../../features/mapping/ColumnMapping';
+import ChartTypeSelector from '../../features/presets/ChartTypeSelector';
+import ThemeSelector from '../../features/themes/ThemeSelector';
 import { validateMapping } from '../../lib/validation/mappingValidator';
 
 const ControlPanel = () => {
@@ -99,13 +101,13 @@ const ControlPanel = () => {
         </div>
 
         <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-2">3. Chart Type</h3>
-          <p className="text-sm text-gray-500">Chart presets coming in Stage 4</p>
+          <h3 className="font-medium text-gray-900 mb-4">3. Chart Type</h3>
+          <ChartTypeSelector />
         </div>
 
         <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-2">4. Style & Theme</h3>
-          <p className="text-sm text-gray-500">Themes coming in Stage 5</p>
+          <h3 className="font-medium text-gray-900 mb-4">4. Style & Theme</h3>
+          <ThemeSelector />
         </div>
 
         <div className="border border-gray-200 rounded-lg p-4">

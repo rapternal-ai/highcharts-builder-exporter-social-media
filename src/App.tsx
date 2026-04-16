@@ -1,9 +1,12 @@
 import { useBuilderStore } from './store/builderStore';
 import ControlPanel from './components/builder/ControlPanel';
 import CSVPreview from './features/csv/CSVPreview';
+import ChartPreview from './components/preview/ChartPreview';
 
 function App() {
-  const { mode, setMode, dataset } = useBuilderStore();
+  const { mode, setMode, dataset, mapping, preset } = useBuilderStore();
+  
+  const canShowChart = dataset && mapping.yFields && mapping.yFields.length > 0 && preset;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -48,36 +51,32 @@ function App() {
 
         {/* Right Preview Area */}
         <div className="flex-1 p-6">
-          <div className="h-full bg-white rounded-lg border border-gray-200 p-6">
-            {dataset ? (
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Data Preview</h2>
-                <CSVPreview />
-              </div>
-            ) : (
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Chart Preview</h2>
-                <p className="text-sm text-gray-600 mb-4">Current mode: {mode}</p>
-                
-                <div className="mb-4 p-8 bg-gray-100 rounded-lg" style={{height: '400px'}}>
-                  <div className="flex items-center justify-center h-full">
-                    <div className="text-center">
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">Upload CSV to Get Started</h3>
-                      <p className="text-gray-600">Upload a CSV file to see data preview and create {mode} charts</p>
-                      <p className="text-sm text-gray-500 mt-2">Charts will render here after data mapping</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                  <p className="text-sm text-blue-800">
-                    <strong>Stage 2 Progress:</strong> CSV upload and parsing functionality ready. 
-                    Upload a file to see column detection and data preview.
-                  </p>
+          {canShowChart ? (
+            <ChartPreview />
+          ) : dataset ? (
+            <div className="h-full bg-white rounded-lg border border-gray-200 p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Data Preview</h2>
+              <CSVPreview />
+            </div>
+          ) : (
+            <div className="h-full bg-white rounded-lg border border-gray-200 p-6">
+              <div className="flex items-center justify-center h-full">
+                <div className="text-center">
+                  <div className="text-4xl text-gray-400 mb-4">📊</div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">Upload CSV to Get Started</h3>
+                  <p className="text-gray-600">Upload a CSV file to see data preview and create {mode} charts</p>
+                  <p className="text-sm text-gray-500 mt-2">Charts will render here after data mapping</p>
                 </div>
               </div>
-            )}
-          </div>
+              
+              <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  <strong>Stages 4 & 5 Progress:</strong> Chart presets and theme system ready. 
+                  Upload a file and configure mapping to see live charts.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
