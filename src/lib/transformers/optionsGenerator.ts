@@ -2,6 +2,19 @@ import type { ParsedDataset, SeriesMapping, ChartPreset } from '../../types';
 import { getPresetById } from '../../data/presetLibrary';
 import { getThemeById } from '../../data/themeLibrary';
 
+// Helper function to parse MM/DD/YYYY format
+function parseDate(dateString: string): number {
+  const parts = dateString.split('/');
+  if (parts.length === 3) {
+    const month = parseInt(parts[0], 10) - 1; // JS months are 0-indexed
+    const day = parseInt(parts[1], 10);
+    const year = parseInt(parts[2], 10);
+    return new Date(year, month, day).getTime();
+  }
+  // Fallback to standard parsing
+  return new Date(dateString).getTime();
+}
+
 export function generateHighchartsOptions(
   dataset: ParsedDataset,
   mapping: SeriesMapping,
@@ -49,7 +62,7 @@ export function generateHighchartsOptions(
   if (preset === 'ohlc' || preset === 'candlestick' || preset === 'candlestickVolume') {
     // OHLC/Candlestick data
     const ohlcData = rows.map(row => {
-      const date = mapping.dateField ? new Date(row[mapping.dateField] as string).getTime() : Date.now();
+      const date = mapping.dateField ? parseDate(row[mapping.dateField] as string) : Date.now();
       return [
         date,
         row[mapping.openField!] as number,
@@ -68,7 +81,7 @@ export function generateHighchartsOptions(
     // Add volume series if specified
     if (preset === 'candlestickVolume' && mapping.volumeField) {
       const volumeData = rows.map(row => {
-        const date = mapping.dateField ? new Date(row[mapping.dateField] as string).getTime() : Date.now();
+        const date = mapping.dateField ? parseDate(row[mapping.dateField] as string) : Date.now();
         return [date, row[mapping.volumeField!] as number];
       }).filter(point => point.every(val => val !== null && val !== undefined));
 
@@ -108,7 +121,7 @@ export function generateHighchartsOptions(
         } else if (isStockChart) {
           // Stock chart data format
           seriesData = rows.map(row => {
-            const date = mapping.dateField ? new Date(row[mapping.dateField] as string).getTime() : Date.now();
+            const date = mapping.dateField ? parseDate(row[mapping.dateField] as string) : Date.now();
             return [date, row[yField] as number];
           }).filter(point => point.every(val => val !== null && val !== undefined));
         } else {
@@ -121,7 +134,7 @@ export function generateHighchartsOptions(
             if (isDateField) {
               // For date fields, use [timestamp, value] format
               seriesData = rows.map(row => {
-                const date = new Date(row[mapping.xField!] as string).getTime();
+                const date = parseDate(row[mapping.xField!] as string);
                 return [date, row[yField] as number];
               }).filter(point => point.every(val => val !== null && val !== undefined));
             } else {
@@ -162,7 +175,7 @@ export function generateHighchartsOptions(
           title: { text: mapping.xField },
           labels: {
             style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' },
-            format: '{value: %Y-%m-%d}'
+            format: '{value: %m/%d/%Y}'
           }
         };
       } else {
