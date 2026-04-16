@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Highcharts from 'highcharts';
 import { useBuilderStore } from '../../store/builderStore';
 import { generateHighchartsOptions } from '../../lib/transformers/optionsGenerator';
@@ -18,9 +18,9 @@ const ChartPreview = () => {
       console.log('Module default:', module.default);
       console.log('Module keys:', Object.keys(module));
       
-      // Set the component directly, not wrapped in a function
-      if (module.default && typeof module.default === 'object') {
-        setHighchartsReact(module.default);
+      // The actual component is at module.HighchartsReact, not module.default
+      if (module.HighchartsReact && typeof module.HighchartsReact === 'object') {
+        setHighchartsReact(module.HighchartsReact);
       } else {
         console.error('Could not find valid component in module');
         setError('Failed to load chart component - invalid module structure');
@@ -76,11 +76,11 @@ const ChartPreview = () => {
           </div>
         ) : chartOptions && HighchartsReact ? (
           <div className="h-full">
-            {React.createElement(HighchartsReact, {
-              highcharts: Highcharts,
-              options: chartOptions,
-              ref: chartComponentRef
-            })}
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={chartOptions}
+              ref={chartComponentRef}
+            />
           </div>
         ) : chartOptions && !HighchartsReact ? (
           <div className="flex items-center justify-center h-full">
