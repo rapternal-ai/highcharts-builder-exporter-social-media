@@ -277,7 +277,7 @@ export function generateHighchartsOptions(
     borderColor: '#cccccc',
     borderWidth: 1,
     borderRadius: 4,
-    itemStyle: theme?.legendStyle || { 
+    itemStyle: { 
       fontSize: '12px', 
       color: '#333333',
       fontWeight: 'normal'
@@ -287,7 +287,7 @@ export function generateHighchartsOptions(
       fontWeight: 'bold'
     },
     itemHiddenStyle: {
-      color: '#cccccc'
+      color: '#999999'
     },
     shadow: false,
     itemMarginTop: 8,
