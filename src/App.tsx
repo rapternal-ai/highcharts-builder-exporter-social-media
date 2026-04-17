@@ -55,14 +55,14 @@ function App() {
       </header>
 
       {/* Main Layout */}
-      <div className="relative" style={{height: 'calc(100vh - 80px)'}}>
-        {/* Left Control Panel - Fixed width, overlays on narrow screens */}
-        <div className="absolute left-0 top-0 w-80 bg-white border-r border-gray-200 overflow-y-auto z-10" style={{height: 'calc(100vh - 80px)'}}>
+      <div className="flex" style={{height: 'calc(100vh - 80px)'}}>
+        {/* Left Control Panel - Fixed width, no shrinking */}
+        <div className="w-80 flex-shrink-0 bg-white border-r border-gray-200 overflow-y-auto">
           <ControlPanel chartRef={chartRef} />
         </div>
 
-        {/* Right Preview Area - Has padding to account for left panel */}
-        <div className="pl-80 p-6 flex items-center justify-center h-full">
+        {/* Right Preview Area - Takes remaining space */}
+        <div className="flex-1 p-6 flex items-center justify-center overflow-auto">
           {canShowChart ? (
             <ChartPreview chartRef={chartRef} />
           ) : dataset ? (
