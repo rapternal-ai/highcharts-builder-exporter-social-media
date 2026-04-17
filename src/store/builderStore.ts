@@ -20,6 +20,7 @@ const initialState: BuilderState = {
   mode: 'standard',
   mapping: {},
   chartDimensions: { width: 800, height: 800 },
+  preset: 'line',
 };
 
 export const useBuilderStore = create<BuilderStore>((set) => ({
