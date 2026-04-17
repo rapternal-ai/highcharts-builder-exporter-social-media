@@ -175,7 +175,13 @@ export function generateHighchartsOptions(
           title: { text: mapping.xField },
           labels: {
             style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' },
-            format: '%m/%d/%Y'
+            formatter: function() {
+              const date = new Date(this.value);
+              const month = String(date.getMonth() + 1).padStart(2, '0');
+              const day = String(date.getDate()).padStart(2, '0');
+              const year = date.getFullYear();
+              return `${month}/${day}/${year}`;
+            }
           }
         };
       } else {
