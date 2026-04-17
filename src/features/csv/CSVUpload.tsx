@@ -27,18 +27,18 @@ const CSVUpload = () => {
       
       if (result.success && result.data) {
         setDataset(result.data);
-        
-        // Automatically set first column as X-axis field
+
+        // Automatically set first column as X-axis field and remaining columns as Y-axis series
         if (result.data.headers.length > 0) {
           setMapping({
             xField: result.data.headers[0],
-            yFields: [],
+            yFields: result.data.headers.slice(1),
             groupField: undefined,
             labelField: undefined,
             tooltipFields: []
           });
         }
-        
+
         setError(null);
       } else {
         setError(result.error || 'Failed to parse CSV file');
@@ -140,6 +140,7 @@ const CSVUpload = () => {
         <p>Supported format: CSV files up to 10MB</p>
         <p>The first row should contain column headers</p>
         <p>First column will be automatically selected as X-axis</p>
+        <p>All remaining columns will be automatically mapped as series</p>
       </div>
     </div>
   );
