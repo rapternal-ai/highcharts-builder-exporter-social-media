@@ -102,6 +102,7 @@ const initialState: BuilderState = {
   mapping: {},
   chartDimensions: { width: 800, height: 800 },
   preset: 'line',
+  seriesMarkerEnabled: false,
 };
 
 export const useBuilderStore = create<BuilderStore>((set) => ({
