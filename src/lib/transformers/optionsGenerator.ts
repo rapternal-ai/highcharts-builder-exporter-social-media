@@ -42,7 +42,7 @@ export function generateHighchartsOptions(
       width: chartDimensions?.width || 1000,
       height: chartDimensions?.height || 600,
       spacingTop: 20,
-      marginBottom: 60
+      marginBottom: 100
     },
     title: {
       text: `${presetDef.name} Chart`,
@@ -296,6 +296,7 @@ export function generateHighchartsOptions(
     enabled: series.length > 1 || preset === 'pie',
     align: 'center',
     verticalAlign: 'bottom',
+    y: 20,
     layout: 'horizontal',
     backgroundColor: theme?.backgroundColor || '#ffffff',
     borderColor: '#cccccc',
