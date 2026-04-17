@@ -238,6 +238,7 @@ select {
 .max-h-96 { max-height: 24rem; }
 .sticky { position: sticky; }
 .top-0 { top: 0px; }
+.top-16 { top: 4rem; }
 
 .w-full { width: 100%; }
 

@@ -55,7 +55,7 @@ function App() {
       {/* Main Layout */}
       <div className="flex" style={{height: 'calc(100vh - 80px)'}}>
         {/* Left Control Panel */}
-        <div className="w-80 bg-white border-r border-gray-200 overflow-y-auto">
+        <div className="w-80 bg-white border-r border-gray-200 overflow-y-auto sticky top-16" style={{height: 'calc(100vh - 80px)'}}>
           <ControlPanel />
         </div>
 
