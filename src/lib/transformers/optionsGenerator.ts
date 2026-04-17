@@ -131,6 +131,8 @@ export function generateHighchartsOptions(
             const xFieldType = dataset.inferredTypes[mapping.xField];
             const isDateField = xFieldType === 'date';
             
+            console.log('X-axis field:', mapping.xField, 'Type:', xFieldType, 'Is date:', isDateField);
+            
             if (isDateField) {
               // For date fields, use [timestamp, value] format
               seriesData = rows.map(row => {
@@ -175,9 +177,10 @@ export function generateHighchartsOptions(
           title: { text: mapping.xField },
           labels: {
             style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' },
-            format: '{value: %m/%d/%Y}'
+            format: '%m/%d/%Y'
           }
         };
+        console.log('Date field detected, xAxis configured as datetime:', options.xAxis);
       } else {
         // For non-date fields, use categories
         const xValues = [...new Set(rows.map(row => row[mapping.xField!]))].filter(val => val !== null);
