@@ -9,6 +9,7 @@ interface BuilderStore extends BuilderState {
   setThemeId: (themeId: string) => void;
   setGeneratedOptions: (options: Record<string, unknown>) => void;
   setChartDimensions: (dimensions: { width: number; height: number }) => void;
+  setTitle: (title: string) => void;
   setSubtitle: (subtitle: string) => void;
   setSource: (source: string) => void;
   clearDataset: () => void;
@@ -31,6 +32,7 @@ export const useBuilderStore = create<BuilderStore>((set) => ({
   setThemeId: (themeId) => set({ themeId }),
   setGeneratedOptions: (generatedOptions) => set({ generatedOptions }),
   setChartDimensions: (chartDimensions) => set({ chartDimensions }),
+  setTitle: (title) => set({ title }),
   setSubtitle: (subtitle) => set({ subtitle }),
   setSource: (source) => set({ source }),
   clearDataset: () => set({ dataset: undefined, mapping: {} }),

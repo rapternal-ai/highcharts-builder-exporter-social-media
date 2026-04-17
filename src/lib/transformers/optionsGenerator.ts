@@ -21,6 +21,7 @@ export function generateHighchartsOptions(
   preset: ChartPreset,
   themeId?: string,
   chartDimensions?: { width: number; height: number },
+  title?: string,
   subtitle?: string,
   source?: string
 ): any {
@@ -45,7 +46,7 @@ export function generateHighchartsOptions(
       marginBottom: isStockChart ? 180 : 120
     },
     title: {
-      text: `${presetDef.name} Chart`,
+      text: title || `${presetDef.name} Chart`,
       align: 'left',
       style: {
         fontFamily: 'Georgia, serif',

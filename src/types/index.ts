@@ -68,6 +68,7 @@ export type BuilderState = {
   themeId?: string;
   generatedOptions?: Record<string, unknown>;
   chartDimensions?: { width: number; height: number };
+  title?: string;
   subtitle?: string;
   source?: string;
 };
