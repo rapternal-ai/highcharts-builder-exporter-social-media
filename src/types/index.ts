@@ -69,4 +69,5 @@ export type BuilderState = {
   generatedOptions?: Record<string, unknown>;
   chartDimensions?: { width: number; height: number };
   subtitle?: string;
+  source?: string;
 };

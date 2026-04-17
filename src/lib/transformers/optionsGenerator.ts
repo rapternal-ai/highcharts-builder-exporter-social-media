@@ -21,7 +21,8 @@ export function generateHighchartsOptions(
   preset: ChartPreset,
   themeId?: string,
   chartDimensions?: { width: number; height: number },
-  subtitle?: string
+  subtitle?: string,
+  source?: string
 ): any {
   const presetDef = getPresetById(preset);
   const theme = themeId ? getThemeById(themeId) : null;
@@ -39,14 +40,16 @@ export function generateHighchartsOptions(
       type: presetDef.highchartsType,
       backgroundColor: theme?.backgroundColor || '#ffffff',
       width: chartDimensions?.width || 1000,
-      height: chartDimensions?.height || 600
+      height: chartDimensions?.height || 600,
+      spacingTop: 20,
+      marginBottom: 60
     },
     title: {
       text: `${presetDef.name} Chart`,
       align: 'left',
       style: {
         fontFamily: 'Georgia, serif',
-        fontSize: '15px',
+        fontSize: '1.5rem',
         fontWeight: 'normal',
         color: theme?.titleStyle?.color || '#333333'
       }
@@ -57,7 +60,20 @@ export function generateHighchartsOptions(
       style: theme?.subtitleStyle || { fontSize: '12px', color: '#666666' }
     },
     credits: {
-      enabled: false
+      enabled: true,
+      text: source || '',
+      href: '',
+      style: {
+        fontSize: '10px',
+        color: '#666666',
+        fontFamily: 'Roboto Condensed, sans-serif'
+      },
+      position: {
+        align: 'left',
+        verticalAlign: 'bottom',
+        x: 10,
+        y: -10
+      }
     },
     colors: theme?.palette || ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9'],
     plotOptions: {

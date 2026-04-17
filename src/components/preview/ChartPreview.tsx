@@ -9,7 +9,7 @@ interface ChartPreviewProps {
 }
 
 const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
-  const { mode, dataset, mapping, preset, themeId, chartDimensions, subtitle } = useBuilderStore();
+  const { mode, dataset, mapping, preset, themeId, chartDimensions, subtitle, source } = useBuilderStore();
   const [chartOptions, setChartOptions] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [HighchartsReact, setHighchartsReact] = useState<any>(null);
@@ -60,7 +60,7 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
   useEffect(() => {
     if (canShowChart && mappingValidation?.isValid) {
       try {
-        const options = generateHighchartsOptions(dataset, mapping, preset, themeId, chartDimensions, subtitle);
+        const options = generateHighchartsOptions(dataset, mapping, preset, themeId, chartDimensions, subtitle, source);
         setChartOptions(options);
         setError(null);
       } catch (err) {
@@ -71,7 +71,7 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
       setChartOptions(null);
       setError(null);
     }
-  }, [dataset, mapping, preset, themeId, chartDimensions, subtitle, canShowChart, mappingValidation?.isValid]);
+  }, [dataset, mapping, preset, themeId, chartDimensions, subtitle, source, canShowChart, mappingValidation?.isValid]);
 
 
   return (

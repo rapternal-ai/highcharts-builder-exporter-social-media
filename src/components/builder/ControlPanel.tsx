@@ -13,7 +13,7 @@ interface ControlPanelProps {
 }
 
 const ControlPanel = ({ chartRef }: ControlPanelProps) => {
-  const { mode, dataset, mapping, subtitle, setSubtitle } = useBuilderStore();
+  const { mode, dataset, mapping, subtitle, setSubtitle, source, setSource } = useBuilderStore();
   
   const mappingValidation = dataset ? validateMapping(mapping, mode) : null;
 
@@ -146,6 +146,26 @@ const ControlPanel = ({ chartRef }: ControlPanelProps) => {
             />
             <p className="mt-2 text-xs text-gray-500">
               Leave blank to use the default filename-based subtitle
+            </p>
+          </div>
+        </div>
+
+        <div className="border border-gray-200 rounded-lg p-4">
+          <h3 className="font-medium text-gray-900 mb-4">3.6. Source Info (Optional)</h3>
+          <div>
+            <label htmlFor="source" className="block text-sm font-medium text-gray-700 mb-2">
+              Source Information
+            </label>
+            <input
+              type="text"
+              id="source"
+              value={source || ''}
+              onChange={(e) => setSource(e.target.value)}
+              placeholder="e.g., Data from XYZ Research, 2024"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+            <p className="mt-2 text-xs text-gray-500">
+              Source info will be displayed at the bottom left of the chart
             </p>
           </div>
         </div>
