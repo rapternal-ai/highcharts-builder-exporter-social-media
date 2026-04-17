@@ -60,35 +60,34 @@ function App() {
         </div>
 
         {/* Right Preview Area */}
-        <div className="flex-1 p-6 flex items-center justify-center bg-gray-100">
-          <div className="w-full max-w-5xl">
-            {canShowChart ? (
-              <ChartPreview />
-            ) : dataset ? (
-              <div className="h-full bg-white rounded-lg border border-gray-200 p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Data Preview</h2>
-                
-                {/* Debug info to help user see what's missing */}
-                <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <h4 className="text-sm font-medium text-yellow-800 mb-2">Chart Status</h4>
-                  <div className="text-sm text-yellow-700 space-y-1">
-                    <div>✅ Data uploaded: {dataset.sourceFileName}</div>
-                    <div className={mapping.yFields && mapping.yFields.length > 0 ? "text-green-700" : "text-red-700"}>
-                      {mapping.yFields && mapping.yFields.length > 0 ? "✅" : "❌"} Y-axis mapped: {mapping.yFields?.length || 0} field(s)
-                    </div>
-                    <div className={preset ? "text-green-700" : "text-red-700"}>
-                      {preset ? "✅" : "❌"} Chart type selected: {preset || "None"}
-                    </div>
-                    {!canShowChart && (
-                      <div className="mt-2 text-yellow-800 font-medium">
-                        → Complete mapping and select a chart type to see your chart
-                      </div>
-                    )}
+        <div className="flex-1 p-6 flex items-center justify-center">
+          {canShowChart ? (
+            <ChartPreview />
+          ) : dataset ? (
+            <div className="h-full bg-white rounded-lg border border-gray-200 p-6 w-full max-w-5xl">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Data Preview</h2>
+              
+              {/* Debug info to help user see what's missing */}
+              <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <h4 className="text-sm font-medium text-yellow-800 mb-2">Chart Status</h4>
+                <div className="text-sm text-yellow-700 space-y-1">
+                  <div>✅ Data uploaded: {dataset.sourceFileName}</div>
+                  <div className={mapping.yFields && mapping.yFields.length > 0 ? "text-green-700" : "text-red-700"}>
+                    {mapping.yFields && mapping.yFields.length > 0 ? "✅" : "❌"} Y-axis mapped: {mapping.yFields?.length || 0} field(s)
                   </div>
+                  <div className={preset ? "text-green-700" : "text-red-700"}>
+                    {preset ? "✅" : "❌"} Chart type selected: {preset || "None"}
+                  </div>
+                  {!canShowChart && (
+                    <div className="mt-2 text-yellow-800 font-medium">
+                      → Complete mapping and select a chart type to see your chart
+                    </div>
+                  )}
                 </div>
-                
-                <CSVPreview />
               </div>
+              
+              <CSVPreview />
+            </div>
           ) : (
             <div className="h-full bg-white rounded-lg border border-gray-200 p-6">
               <div className="flex items-center justify-center h-full">

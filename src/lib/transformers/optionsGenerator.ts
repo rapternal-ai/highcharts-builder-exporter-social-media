@@ -35,7 +35,9 @@ export function generateHighchartsOptions(
   const options: any = {
     chart: {
       type: presetDef.highchartsType,
-      backgroundColor: theme?.backgroundColor || '#ffffff'
+      backgroundColor: theme?.backgroundColor || '#ffffff',
+      width: 1000, // Fixed width for consistent chart display
+      height: 600  // Fixed height for consistent chart display
     },
     title: {
       text: `${presetDef.name} Chart`,
