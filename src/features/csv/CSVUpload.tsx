@@ -3,7 +3,7 @@ import { useBuilderStore } from '../../store/builderStore';
 import { parseCSVFile } from '../../lib/csv/csvParser';
 
 const CSVUpload = () => {
-  const { setDataset } = useBuilderStore();
+  const { setDataset, setMapping } = useBuilderStore();
   const [isDragOver, setIsDragOver] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,6 +27,18 @@ const CSVUpload = () => {
       
       if (result.success && result.data) {
         setDataset(result.data);
+        
+        // Automatically set first column as X-axis field
+        if (result.data.headers.length > 0) {
+          setMapping({
+            xField: result.data.headers[0],
+            yFields: [],
+            groupField: undefined,
+            labelField: undefined,
+            tooltipFields: []
+          });
+        }
+        
         setError(null);
       } else {
         setError(result.error || 'Failed to parse CSV file');
@@ -36,7 +48,7 @@ const CSVUpload = () => {
     } finally {
       setIsUploading(false);
     }
-  }, [setDataset]);
+  }, [setDataset, setMapping]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -127,6 +139,7 @@ const CSVUpload = () => {
       <div className="text-xs text-gray-500">
         <p>Supported format: CSV files up to 10MB</p>
         <p>The first row should contain column headers</p>
+        <p>First column will be automatically selected as X-axis</p>
       </div>
     </div>
   );
