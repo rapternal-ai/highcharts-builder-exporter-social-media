@@ -2,6 +2,242 @@ import type { ChartTheme } from '../types';
 
 export const DEFAULT_THEMES: ChartTheme[] = [
   {
+    id: 'smpl',
+    name: 'Simple',
+    fontFamily: 'Roboto',
+    backgroundColor: '#ffffff',
+    titleStyle: {
+      fontSize: '18px',
+      fontWeight: 'bold',
+      color: '#666666'
+    },
+    subtitleStyle: {
+      fontSize: '14px',
+      color: '#666666'
+    },
+    axisLabelStyle: {
+      fontSize: '12px',
+      color: '#666666'
+    },
+    legendStyle: {
+      fontSize: '12px',
+      color: '#333333'
+    },
+    tooltipStyle: {
+      fontSize: '12px',
+      color: '#666666'
+    },
+    palette: ['#d35400', '#2980b9', '#2ecc71', '#f1c40f', '#2c3e50', '#7f8c8d'],
+    gridLineColor: '#F3F3F3',
+    lineWidthDefaults: {
+      line: 2,
+      area: 2,
+      stock: 1
+    },
+    exportDefaults: {
+      width: 800,
+      height: 400,
+      scale: 1
+    }
+  },
+  {
+    id: 'economist',
+    name: 'Economist',
+    fontFamily: 'Droid Sans',
+    backgroundColor: '#d5e4eb',
+    titleStyle: {
+      fontSize: '18px',
+      fontWeight: 'bold',
+      color: '#3C3C3C'
+    },
+    subtitleStyle: {
+      fontSize: '14px',
+      color: '#3C3C3C'
+    },
+    axisLabelStyle: {
+      fontSize: '12px',
+      color: '#3C3C3C'
+    },
+    legendStyle: {
+      fontSize: '12px',
+      color: '#3C3C3C'
+    },
+    tooltipStyle: {
+      fontSize: '12px',
+      color: '#000000',
+      backgroundColor: '#FFFFFF'
+    },
+    palette: ['#6794a7', '#014d64', '#76c0c1', '#01a2d9', '#7ad2f6', '#00887d', '#adadad', '#7bd3f6', '#7c260b', '#ee8f71', '#76c0c1', '#a18376'],
+    gridLineColor: '#FFFFFF',
+    lineWidthDefaults: {
+      line: 2,
+      area: 2,
+      stock: 1
+    },
+    exportDefaults: {
+      width: 800,
+      height: 400,
+      scale: 1
+    }
+  },
+  {
+    id: 'flat',
+    name: 'Flat',
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+    backgroundColor: '#ECF0F1',
+    titleStyle: {
+      fontSize: '18px',
+      fontWeight: 'bold',
+      color: '#34495e'
+    },
+    subtitleStyle: {
+      fontSize: '14px',
+      color: '#34495e'
+    },
+    axisLabelStyle: {
+      fontSize: '12px',
+      color: '#34495e'
+    },
+    legendStyle: {
+      fontSize: '12px',
+      color: '#34495e'
+    },
+    tooltipStyle: {
+      fontSize: '12px',
+      color: '#34495e'
+    },
+    palette: ['#f1c40f', '#2ecc71', '#9b59b6', '#e74c3c', '#34495e', '#3498db', '#1abc9c', '#f39c12', '#d35400'],
+    gridLineColor: '#BDC3C7',
+    lineWidthDefaults: {
+      line: 2,
+      area: 2,
+      stock: 1
+    },
+    exportDefaults: {
+      width: 800,
+      height: 400,
+      scale: 1
+    }
+  },
+  {
+    id: 'flatdark',
+    name: 'Flat Dark',
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+    backgroundColor: '#34495e',
+    titleStyle: {
+      fontSize: '18px',
+      fontWeight: 'bold',
+      color: '#FFFFFF'
+    },
+    subtitleStyle: {
+      fontSize: '14px',
+      color: '#666666'
+    },
+    axisLabelStyle: {
+      fontSize: '12px',
+      color: '#FFFFFF'
+    },
+    legendStyle: {
+      fontSize: '12px',
+      color: '#C0C0C0'
+    },
+    tooltipStyle: {
+      fontSize: '12px',
+      color: '#FFFFFF'
+    },
+    palette: ['#f1c40f', '#2ecc71', '#9b59b6', '#e74c3c', '#34495e', '#3498db', '#1abc9c', '#f39c12', '#d35400'],
+    gridLineColor: '#46627f',
+    lineWidthDefaults: {
+      line: 2,
+      area: 2,
+      stock: 1
+    },
+    exportDefaults: {
+      width: 800,
+      height: 400,
+      scale: 1
+    }
+  },
+  {
+    id: 'google',
+    name: 'Google',
+    fontFamily: 'Roboto',
+    backgroundColor: '#ffffff',
+    titleStyle: {
+      fontSize: '18px',
+      fontWeight: 'bold',
+      color: '#444444'
+    },
+    subtitleStyle: {
+      fontSize: '14px',
+      color: '#444444'
+    },
+    axisLabelStyle: {
+      fontSize: '12px',
+      color: '#444444'
+    },
+    legendStyle: {
+      fontSize: '12px',
+      color: '#444444'
+    },
+    tooltipStyle: {
+      fontSize: '12px',
+      color: '#444444'
+    },
+    palette: ['#0266C8', '#F90101', '#F2B50F', '#00933B'],
+    gridLineColor: '#F3F3F3',
+    lineWidthDefaults: {
+      line: 2,
+      area: 2,
+      stock: 1
+    },
+    exportDefaults: {
+      width: 800,
+      height: 400,
+      scale: 1
+    }
+  },
+  {
+    id: '538',
+    name: 'FiveThirtyEight',
+    fontFamily: 'Roboto',
+    backgroundColor: '#F0F0F0',
+    titleStyle: {
+      fontSize: '18px',
+      fontWeight: 'bold',
+      color: '#3C3C3C'
+    },
+    subtitleStyle: {
+      fontSize: '14px',
+      color: '#3C3C3C'
+    },
+    axisLabelStyle: {
+      fontSize: '12px',
+      color: '#3C3C3C'
+    },
+    legendStyle: {
+      fontSize: '12px',
+      color: '#3C3C3C'
+    },
+    tooltipStyle: {
+      fontSize: '12px',
+      color: '#F0F0F0',
+      backgroundColor: 'rgba(0, 0, 0, 0.85)'
+    },
+    palette: ['#FF2700', '#008FD5', '#77AB43', '#636464', '#C4C4C4'],
+    gridLineColor: '#D7D7D8',
+    lineWidthDefaults: {
+      line: 2,
+      area: 2,
+      stock: 1
+    },
+    exportDefaults: {
+      width: 800,
+      height: 400,
+      scale: 1
+    }
+  },
+  {
     id: 'default',
     name: 'Default',
     fontFamily: 'system-ui, -apple-system, sans-serif',
@@ -38,166 +274,6 @@ export const DEFAULT_THEMES: ChartTheme[] = [
     exportDefaults: {
       width: 800,
       height: 400,
-      scale: 1
-    }
-  },
-  {
-    id: 'dark',
-    name: 'Dark Theme',
-    fontFamily: 'system-ui, -apple-system, sans-serif',
-    backgroundColor: '#2a2a2b',
-    titleStyle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
-      color: '#ffffff'
-    },
-    subtitleStyle: {
-      fontSize: '14px',
-      color: '#cccccc'
-    },
-    axisLabelStyle: {
-      fontSize: '12px',
-      color: '#cccccc'
-    },
-    legendStyle: {
-      fontSize: '12px',
-      color: '#ffffff'
-    },
-    tooltipStyle: {
-      fontSize: '12px',
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      color: '#ffffff'
-    },
-    palette: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee', '#55BF3B', '#DF5353', '#7798BF'],
-    gridLineColor: '#505053',
-    lineWidthDefaults: {
-      line: 2,
-      area: 2,
-      stock: 1
-    },
-    exportDefaults: {
-      width: 800,
-      height: 400,
-      scale: 1
-    }
-  },
-  {
-    id: 'corporate',
-    name: 'Corporate Blue',
-    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-    backgroundColor: '#ffffff',
-    titleStyle: {
-      fontSize: '20px',
-      fontWeight: 'bold',
-      color: '#1f4e79'
-    },
-    subtitleStyle: {
-      fontSize: '14px',
-      color: '#5b9bd5'
-    },
-    axisLabelStyle: {
-      fontSize: '11px',
-      color: '#70ad47'
-    },
-    legendStyle: {
-      fontSize: '12px',
-      color: '#1f4e79'
-    },
-    tooltipStyle: {
-      fontSize: '12px',
-      backgroundColor: 'rgba(31, 78, 121, 0.9)',
-      color: '#ffffff'
-    },
-    palette: ['#1f4e79', '#5b9bd5', '#70ad47', '#ffc000', '#c55a11', '#843c0c', '#7030a0', '#44546a'],
-    gridLineColor: '#d9d9d9',
-    lineWidthDefaults: {
-      line: 3,
-      area: 2,
-      stock: 2
-    },
-    exportDefaults: {
-      width: 1000,
-      height: 500,
-      scale: 1
-    }
-  },
-  {
-    id: 'minimal',
-    name: 'Minimal',
-    fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-    backgroundColor: '#fafafa',
-    titleStyle: {
-      fontSize: '16px',
-      fontWeight: '300',
-      color: '#2c3e50'
-    },
-    subtitleStyle: {
-      fontSize: '13px',
-      color: '#7f8c8d'
-    },
-    axisLabelStyle: {
-      fontSize: '11px',
-      color: '#95a5a6'
-    },
-    legendStyle: {
-      fontSize: '11px',
-      color: '#2c3e50'
-    },
-    tooltipStyle: {
-      fontSize: '11px',
-      backgroundColor: 'rgba(44, 62, 80, 0.8)',
-      color: '#ffffff'
-    },
-    palette: ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#34495e', '#e67e22'],
-    gridLineColor: '#ecf0f1',
-    lineWidthDefaults: {
-      line: 1,
-      area: 1,
-      stock: 1
-    },
-    exportDefaults: {
-      width: 600,
-      height: 300,
-      scale: 1
-    }
-  },
-  {
-    id: 'vibrant',
-    name: 'Vibrant',
-    fontFamily: '"Open Sans", sans-serif',
-    backgroundColor: '#ffffff',
-    titleStyle: {
-      fontSize: '22px',
-      fontWeight: 'bold',
-      color: '#e91e63'
-    },
-    subtitleStyle: {
-      fontSize: '15px',
-      color: '#673ab7'
-    },
-    axisLabelStyle: {
-      fontSize: '12px',
-      color: '#607d8b'
-    },
-    legendStyle: {
-      fontSize: '13px',
-      color: '#e91e63'
-    },
-    tooltipStyle: {
-      fontSize: '12px',
-      backgroundColor: 'rgba(233, 30, 99, 0.9)',
-      color: '#ffffff'
-    },
-    palette: ['#e91e63', '#673ab7', '#3f51b5', '#2196f3', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b'],
-    gridLineColor: '#f5f5f5',
-    lineWidthDefaults: {
-      line: 3,
-      area: 2,
-      stock: 2
-    },
-    exportDefaults: {
-      width: 900,
-      height: 450,
       scale: 1
     }
   }
