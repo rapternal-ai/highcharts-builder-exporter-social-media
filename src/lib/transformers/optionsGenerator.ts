@@ -20,7 +20,8 @@ export function generateHighchartsOptions(
   mapping: SeriesMapping,
   preset: ChartPreset,
   themeId?: string,
-  chartDimensions?: { width: number; height: number }
+  chartDimensions?: { width: number; height: number },
+  subtitle?: string
 ): any {
   const presetDef = getPresetById(preset);
   const theme = themeId ? getThemeById(themeId) : null;
@@ -42,11 +43,18 @@ export function generateHighchartsOptions(
     },
     title: {
       text: `${presetDef.name} Chart`,
-      style: theme?.titleStyle || { fontSize: '18px', fontWeight: 'bold', color: '#333333' }
+      align: 'left',
+      style: {
+        fontFamily: 'Georgia, serif',
+        fontSize: '15px',
+        fontWeight: 'normal',
+        color: theme?.titleStyle?.color || '#333333'
+      }
     },
     subtitle: {
-      text: `Generated from ${dataset.sourceFileName}`,
-      style: theme?.subtitleStyle || { fontSize: '14px', color: '#666666' }
+      text: subtitle || `Generated from ${dataset.sourceFileName}`,
+      align: 'left',
+      style: theme?.subtitleStyle || { fontSize: '12px', color: '#666666' }
     },
     credits: {
       enabled: false

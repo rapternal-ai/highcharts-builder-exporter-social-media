@@ -4,27 +4,27 @@ export const DEFAULT_THEMES: ChartTheme[] = [
   {
     id: 'smpl',
     name: 'Simple',
-    fontFamily: 'Roboto',
+    fontFamily: 'Roboto Condensed',
     backgroundColor: '#ffffff',
     titleStyle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
+      fontSize: '15px',
+      fontWeight: 'normal',
       color: '#666666'
     },
     subtitleStyle: {
-      fontSize: '14px',
+      fontSize: '12px',
       color: '#666666'
     },
     axisLabelStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#666666'
     },
     legendStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#333333'
     },
     tooltipStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#666666'
     },
     palette: ['#d35400', '#2980b9', '#2ecc71', '#f1c40f', '#2c3e50', '#7f8c8d'],
@@ -43,27 +43,27 @@ export const DEFAULT_THEMES: ChartTheme[] = [
   {
     id: 'economist',
     name: 'Economist',
-    fontFamily: 'Droid Sans',
+    fontFamily: 'Roboto Condensed',
     backgroundColor: '#d5e4eb',
     titleStyle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
+      fontSize: '15px',
+      fontWeight: 'normal',
       color: '#3C3C3C'
     },
     subtitleStyle: {
-      fontSize: '14px',
+      fontSize: '12px',
       color: '#3C3C3C'
     },
     axisLabelStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#3C3C3C'
     },
     legendStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#3C3C3C'
     },
     tooltipStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#000000',
       backgroundColor: '#FFFFFF'
     },
@@ -83,27 +83,27 @@ export const DEFAULT_THEMES: ChartTheme[] = [
   {
     id: 'flat',
     name: 'Flat',
-    fontFamily: 'system-ui, -apple-system, sans-serif',
+    fontFamily: 'Roboto Condensed',
     backgroundColor: '#ECF0F1',
     titleStyle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
+      fontSize: '15px',
+      fontWeight: 'normal',
       color: '#34495e'
     },
     subtitleStyle: {
-      fontSize: '14px',
+      fontSize: '12px',
       color: '#34495e'
     },
     axisLabelStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#34495e'
     },
     legendStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#34495e'
     },
     tooltipStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#34495e'
     },
     palette: ['#f1c40f', '#2ecc71', '#9b59b6', '#e74c3c', '#34495e', '#3498db', '#1abc9c', '#f39c12', '#d35400'],
@@ -122,27 +122,27 @@ export const DEFAULT_THEMES: ChartTheme[] = [
   {
     id: 'flatdark',
     name: 'Flat Dark',
-    fontFamily: 'system-ui, -apple-system, sans-serif',
+    fontFamily: 'Roboto Condensed',
     backgroundColor: '#34495e',
     titleStyle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
+      fontSize: '15px',
+      fontWeight: 'normal',
       color: '#FFFFFF'
     },
     subtitleStyle: {
-      fontSize: '14px',
+      fontSize: '12px',
       color: '#666666'
     },
     axisLabelStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#FFFFFF'
     },
     legendStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#C0C0C0'
     },
     tooltipStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#FFFFFF'
     },
     palette: ['#f1c40f', '#2ecc71', '#9b59b6', '#e74c3c', '#34495e', '#3498db', '#1abc9c', '#f39c12', '#d35400'],
@@ -161,27 +161,27 @@ export const DEFAULT_THEMES: ChartTheme[] = [
   {
     id: 'google',
     name: 'Google',
-    fontFamily: 'Roboto',
+    fontFamily: 'Roboto Condensed',
     backgroundColor: '#ffffff',
     titleStyle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
+      fontSize: '15px',
+      fontWeight: 'normal',
       color: '#444444'
     },
     subtitleStyle: {
-      fontSize: '14px',
+      fontSize: '12px',
       color: '#444444'
     },
     axisLabelStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#444444'
     },
     legendStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#444444'
     },
     tooltipStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#444444'
     },
     palette: ['#0266C8', '#F90101', '#F2B50F', '#00933B'],
@@ -200,27 +200,27 @@ export const DEFAULT_THEMES: ChartTheme[] = [
   {
     id: '538',
     name: 'FiveThirtyEight',
-    fontFamily: 'Roboto',
+    fontFamily: 'Roboto Condensed',
     backgroundColor: '#F0F0F0',
     titleStyle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
+      fontSize: '15px',
+      fontWeight: 'normal',
       color: '#3C3C3C'
     },
     subtitleStyle: {
-      fontSize: '14px',
+      fontSize: '12px',
       color: '#3C3C3C'
     },
     axisLabelStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#3C3C3C'
     },
     legendStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#3C3C3C'
     },
     tooltipStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#F0F0F0',
       backgroundColor: 'rgba(0, 0, 0, 0.85)'
     },
@@ -240,27 +240,27 @@ export const DEFAULT_THEMES: ChartTheme[] = [
   {
     id: 'default',
     name: 'Default',
-    fontFamily: 'system-ui, -apple-system, sans-serif',
+    fontFamily: 'Roboto Condensed',
     backgroundColor: '#ffffff',
     titleStyle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
+      fontSize: '15px',
+      fontWeight: 'normal',
       color: '#333333'
     },
     subtitleStyle: {
-      fontSize: '14px',
+      fontSize: '12px',
       color: '#666666'
     },
     axisLabelStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#666666'
     },
     legendStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       color: '#333333'
     },
     tooltipStyle: {
-      fontSize: '12px',
+      fontSize: '11px',
       backgroundColor: 'rgba(0, 0, 0, 0.8)',
       color: '#ffffff'
     },
