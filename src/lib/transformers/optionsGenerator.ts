@@ -42,7 +42,7 @@ export function generateHighchartsOptions(
       width: chartDimensions?.width || 1000,
       height: chartDimensions?.height || 600,
       spacingTop: 20,
-      marginBottom: 100
+      marginBottom: 120
     },
     title: {
       text: `${presetDef.name} Chart`,
@@ -294,14 +294,11 @@ export function generateHighchartsOptions(
   // Configure legend
   options.legend = {
     enabled: series.length > 1 || preset === 'pie',
-    align: 'center',
-    verticalAlign: 'bottom',
-    y: 20,
+    align: 'right',
+    verticalAlign: 'top',
+    y: 40,
     layout: 'horizontal',
-    backgroundColor: theme?.backgroundColor || '#ffffff',
-    borderColor: '#cccccc',
-    borderWidth: 1,
-    borderRadius: 4,
+    borderWidth: 0,
     itemStyle: {
       fontSize: '12px',
       color: '#333333',
