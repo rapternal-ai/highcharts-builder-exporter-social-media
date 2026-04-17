@@ -301,8 +301,8 @@ export function generateHighchartsOptions(
     borderColor: '#cccccc',
     borderWidth: 1,
     borderRadius: 4,
-    itemStyle: { 
-      fontSize: '12px', 
+    itemStyle: {
+      fontSize: '12px',
       color: '#333333',
       fontWeight: 'normal'
     },
@@ -314,8 +314,11 @@ export function generateHighchartsOptions(
       color: '#999999'
     },
     shadow: false,
-    itemMarginTop: 8,
-    itemMarginBottom: 8
+    itemMarginTop: 12,
+    itemMarginBottom: 12,
+    itemMarginLeft: 15,
+    itemMarginRight: 15,
+    padding: 10
   };
 
   // Configure tooltip
