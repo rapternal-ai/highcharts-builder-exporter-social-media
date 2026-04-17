@@ -27,6 +27,20 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
     });
   }, []);
 
+  // Initialize Highstock module for stock chart navigator
+  useEffect(() => {
+    if (mode === 'stock') {
+      import('highcharts/modules/stock').then((module) => {
+        if (typeof module.default === 'function') {
+          module.default(Highcharts);
+          console.log('Highstock module initialized');
+        }
+      }).catch((err) => {
+        console.error('Failed to load stock module:', err);
+      });
+    }
+  }, [mode]);
+
   // Dynamically import HighchartsReact to avoid module resolution issues
   useEffect(() => {
     import('highcharts-react-official').then((module) => {

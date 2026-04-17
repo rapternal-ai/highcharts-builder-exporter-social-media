@@ -42,7 +42,7 @@ export function generateHighchartsOptions(
       width: chartDimensions?.width || 1000,
       height: chartDimensions?.height || 600,
       spacingTop: 20,
-      marginBottom: 120
+      marginBottom: isStockChart ? 180 : 120
     },
     title: {
       text: `${presetDef.name} Chart`,
@@ -340,6 +340,21 @@ export function generateHighchartsOptions(
       selected: 1
     };
     options.navigator = {
+      enabled: true,
+      height: 60,
+      margin: 10,
+      series: {
+        color: '#4572A7',
+        fillOpacity: 0.05
+      },
+      xAxis: {
+        gridLineColor: '#E6E6E6'
+      },
+      yAxis: {
+        gridLineColor: '#E6E6E6'
+      }
+    };
+    options.scrollbar = {
       enabled: true
     };
   }
