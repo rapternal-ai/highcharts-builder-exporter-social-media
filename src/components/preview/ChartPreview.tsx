@@ -15,6 +15,18 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
   const [HighchartsReact, setHighchartsReact] = useState<any>(null);
   const chartComponentRef = useRef<any>(null);
 
+  // Initialize Highcharts exporting module
+  useEffect(() => {
+    import('highcharts/modules/exporting').then((module) => {
+      if (typeof module.default === 'function') {
+        module.default(Highcharts);
+        console.log('Highcharts exporting module initialized');
+      }
+    }).catch((err) => {
+      console.error('Failed to load exporting module:', err);
+    });
+  }, []);
+
   // Dynamically import HighchartsReact to avoid module resolution issues
   useEffect(() => {
     import('highcharts-react-official').then((module) => {
