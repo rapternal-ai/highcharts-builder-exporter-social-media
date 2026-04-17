@@ -68,10 +68,10 @@ interface ExportControlsProps {
 }
 
 const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) => {
-  const { dataset, mapping, preset, setChartDimensions } = useBuilderStore();
+  const { dataset, preset, setChartDimensions } = useBuilderStore();
   const [settings, setSettings] = useState<ExportSettings>({
     format: 'png',
-    filename: `${dataset?.sourceFileName?.replace('.csv', '') || 'chart'}-${preset || 'chart'}`,
+    filename: `${dataset?.sourceFileName?.replace('.csv', '') || 'chart'}-${preset || 'chart'}-800x400.png`,
     width: 800,
     height: 400,
     scale: 1,
@@ -81,10 +81,15 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
   const canExport = dataset && preset;
 
   const handlePresetSelect = (presetDef: ExportPreset) => {
+    const baseFilename = dataset?.sourceFileName?.replace('.csv', '') || 'chart';
+    const dimensionSuffix = `_${presetDef.width}x${presetDef.height}`;
+    const extension = settings.format === 'png' ? '.png' : settings.format === 'jpeg' ? '.jpg' : settings.format === 'svg' ? '.svg' : '.pdf';
+    
     setSettings(prev => ({
       ...prev,
       width: presetDef.width,
-      height: presetDef.height
+      height: presetDef.height,
+      filename: baseFilename + dimensionSuffix + extension
     }));
     // Update chart preview dimensions immediately
     setChartDimensions({ width: presetDef.width, height: presetDef.height });
@@ -104,10 +109,29 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
     }
   }, [preset, setSettings, setChartDimensions]);
 
-  // Update chart dimensions when custom width/height changes
+  // Update chart dimensions and filename when custom width/height changes
   useEffect(() => {
     setChartDimensions({ width: settings.width, height: settings.height });
-  }, [settings.width, settings.height, setChartDimensions]);
+    // Update filename to include dimensions
+    const baseFilename = dataset?.sourceFileName?.replace('.csv', '') || 'chart';
+    const dimensionSuffix = `_${settings.width}x${settings.height}`;
+    const extension = settings.format === 'png' ? '.png' : settings.format === 'jpeg' ? '.jpg' : settings.format === 'svg' ? '.svg' : '.pdf';
+    setSettings(prev => ({
+      ...prev,
+      filename: baseFilename + dimensionSuffix + extension
+    }));
+  }, [settings.width, settings.height, dataset?.sourceFileName, settings.format]);
+
+  // Update filename extension when format changes
+  useEffect(() => {
+    const baseFilename = dataset?.sourceFileName?.replace('.csv', '') || 'chart';
+    const dimensionSuffix = `_${settings.width}x${settings.height}`;
+    const extension = settings.format === 'png' ? '.png' : settings.format === 'jpeg' ? '.jpg' : settings.format === 'svg' ? '.svg' : '.pdf';
+    setSettings(prev => ({
+      ...prev,
+      filename: baseFilename + dimensionSuffix + extension
+    }));
+  }, [settings.format, settings.width, settings.height, dataset?.sourceFileName]);
 
   const handleExport = () => {
     if (canExport) {
