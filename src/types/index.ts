@@ -67,4 +67,5 @@ export type BuilderState = {
   preset?: ChartPreset;
   themeId?: string;
   generatedOptions?: Record<string, unknown>;
+  chartDimensions?: { width: number; height: number };
 };

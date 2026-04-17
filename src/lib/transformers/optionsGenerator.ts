@@ -19,7 +19,8 @@ export function generateHighchartsOptions(
   dataset: ParsedDataset,
   mapping: SeriesMapping,
   preset: ChartPreset,
-  themeId?: string
+  themeId?: string,
+  chartDimensions?: { width: number; height: number }
 ): any {
   const presetDef = getPresetById(preset);
   const theme = themeId ? getThemeById(themeId) : null;
@@ -36,8 +37,8 @@ export function generateHighchartsOptions(
     chart: {
       type: presetDef.highchartsType,
       backgroundColor: theme?.backgroundColor || '#ffffff',
-      width: 1000, // Fixed width for consistent chart display
-      height: 600  // Fixed height for consistent chart display
+      width: chartDimensions?.width || 1000,
+      height: chartDimensions?.height || 600
     },
     title: {
       text: `${presetDef.name} Chart`,

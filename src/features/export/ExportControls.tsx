@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useBuilderStore } from '../../store/builderStore';
 
 export interface ExportSettings {
@@ -68,7 +68,7 @@ interface ExportControlsProps {
 }
 
 const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) => {
-  const { dataset, preset } = useBuilderStore();
+  const { dataset, mapping, preset, setChartDimensions } = useBuilderStore();
   const [settings, setSettings] = useState<ExportSettings>({
     format: 'png',
     filename: `${dataset?.sourceFileName?.replace('.csv', '') || 'chart'}-${preset || 'chart'}`,
@@ -86,7 +86,28 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
       width: presetDef.width,
       height: presetDef.height
     }));
+    // Update chart preview dimensions immediately
+    setChartDimensions({ width: presetDef.width, height: presetDef.height });
   };
+
+  useEffect(() => {
+    if (preset) {
+      const dimensions = EXPORT_PRESETS.find(p => p.id === preset);
+      if (dimensions) {
+        setSettings(prev => ({
+          ...prev,
+          width: dimensions.width,
+          height: dimensions.height
+        }));
+        setChartDimensions({ width: dimensions.width, height: dimensions.height });
+      }
+    }
+  }, [preset, setSettings, setChartDimensions]);
+
+  // Update chart dimensions when custom width/height changes
+  useEffect(() => {
+    setChartDimensions({ width: settings.width, height: settings.height });
+  }, [settings.width, settings.height, setChartDimensions]);
 
   const handleExport = () => {
     if (canExport) {

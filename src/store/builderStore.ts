@@ -8,6 +8,7 @@ interface BuilderStore extends BuilderState {
   setPreset: (preset: ChartPreset) => void;
   setThemeId: (themeId: string) => void;
   setGeneratedOptions: (options: Record<string, unknown>) => void;
+  setChartDimensions: (dimensions: { width: number; height: number }) => void;
   clearDataset: () => void;
   reset: () => void;
 }
@@ -15,6 +16,7 @@ interface BuilderStore extends BuilderState {
 const initialState: BuilderState = {
   mode: 'standard',
   mapping: {},
+  chartDimensions: { width: 1000, height: 600 },
 };
 
 export const useBuilderStore = create<BuilderStore>((set) => ({
@@ -26,6 +28,7 @@ export const useBuilderStore = create<BuilderStore>((set) => ({
   setPreset: (preset) => set({ preset }),
   setThemeId: (themeId) => set({ themeId }),
   setGeneratedOptions: (generatedOptions) => set({ generatedOptions }),
+  setChartDimensions: (chartDimensions) => set({ chartDimensions }),
   clearDataset: () => set({ dataset: undefined, mapping: {} }),
   reset: () => set(initialState),
 }));
