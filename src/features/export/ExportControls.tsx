@@ -25,7 +25,7 @@ const EXPORT_PRESETS: ExportPreset[] = [
     name: 'Article',
     description: 'Perfect for blog posts and articles',
     width: 600,
-    height: 400,
+    height: 600,
     icon: '📄'
   },
   {
@@ -71,12 +71,13 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
   const { dataset, preset, setChartDimensions } = useBuilderStore();
   const [settings, setSettings] = useState<ExportSettings>({
     format: 'png',
-    filename: `${dataset?.sourceFileName?.replace('.csv', '') || 'chart'}-${preset || 'chart'}-800x400.png`,
+    filename: `${dataset?.sourceFileName?.replace('.csv', '') || 'chart'}-${preset || 'chart'}-800x800.png`,
     width: 800,
-    height: 400,
+    height: 800,
     scale: 1,
     backgroundColor: '#ffffff'
   });
+  const [selectedPreset, setSelectedPreset] = useState<string>('social-square');
 
   const canExport = dataset && preset;
 
@@ -84,16 +85,25 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
     const baseFilename = dataset?.sourceFileName?.replace('.csv', '') || 'chart';
     const dimensionSuffix = `_${presetDef.width}x${presetDef.height}`;
     const extension = settings.format === 'png' ? '.png' : settings.format === 'jpeg' ? '.jpg' : settings.format === 'svg' ? '.svg' : '.pdf';
-    
+
     setSettings(prev => ({
       ...prev,
       width: presetDef.width,
       height: presetDef.height,
       filename: baseFilename + dimensionSuffix + extension
     }));
+    setSelectedPreset(presetDef.id);
     // Update chart preview dimensions immediately
     setChartDimensions({ width: presetDef.width, height: presetDef.height });
   };
+
+  // Initialize chart dimensions to social square preset on mount
+  useEffect(() => {
+    const socialSquarePreset = EXPORT_PRESETS.find(p => p.id === 'social-square');
+    if (socialSquarePreset) {
+      setChartDimensions({ width: socialSquarePreset.width, height: socialSquarePreset.height });
+    }
+  }, []);
 
   useEffect(() => {
     if (preset) {
@@ -192,7 +202,7 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
                   key={presetDef.id}
                   onClick={() => handlePresetSelect(presetDef)}
                   className={`p-3 rounded-lg border text-left transition-all ${
-                    settings.width === presetDef.width && settings.height === presetDef.height
+                    selectedPreset === presetDef.id
                       ? 'border-blue-500 bg-blue-50'
                       : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                   }`}

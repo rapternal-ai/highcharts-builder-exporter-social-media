@@ -19,7 +19,7 @@ interface BuilderStore extends BuilderState {
 const initialState: BuilderState = {
   mode: 'standard',
   mapping: {},
-  chartDimensions: { width: 1000, height: 600 },
+  chartDimensions: { width: 800, height: 800 },
 };
 
 export const useBuilderStore = create<BuilderStore>((set) => ({

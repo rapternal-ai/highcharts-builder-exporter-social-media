@@ -40,8 +40,8 @@ export function generateHighchartsOptions(
     chart: {
       type: presetDef.highchartsType,
       backgroundColor: theme?.backgroundColor || '#ffffff',
-      width: chartDimensions?.width || 1000,
-      height: chartDimensions?.height || 600,
+      width: chartDimensions?.width || 800,
+      height: chartDimensions?.height || 800,
       spacingTop: 20,
       marginBottom: isStockChart ? 180 : 120
     },
