@@ -516,12 +516,13 @@ export function generateHighchartsOptions(
   };
 
   // Configure tooltip
+  const decimals = tooltipValueDecimals !== undefined ? tooltipValueDecimals : 2;
   options.tooltip = {
     enabled: tooltipEnabled !== false,
     shared: tooltipShared !== false,
     split: tooltipSplit || false,
     useHTML: tooltipUseHTML || false,
-    valueDecimals: tooltipValueDecimals !== undefined ? tooltipValueDecimals : 2,
+    valueDecimals: decimals,
     valuePrefix: tooltipValuePrefix || '',
     valueSuffix: tooltipValueSuffix || '',
     backgroundColor: tooltipBackgroundColor || '#ffffff',
@@ -529,8 +530,19 @@ export function generateHighchartsOptions(
     style: {
       fontSize: '12px'
     },
-    pointFormat: `<span style="color:{point.color}">●</span> {series.name}: <b>{point.y:${tooltipValueDecimals !== undefined ? tooltipValueDecimals : 2}}</b><br/>`,
-    headerFormat: '<span style="font-size: 10px">{point.key}</span><br/>'
+    formatter: function() {
+      let result = '<span style="font-size: 10px">' + (this.key || this.x) + '</span><br/>';
+      if (this.points) {
+        // Shared tooltip (multiple series)
+        this.points.forEach((point: any) => {
+          result += `<span style="color:${point.color}">●</span> ${point.series.name}: <b>${point.y.toFixed(decimals)}</b><br/>`;
+        });
+      } else {
+        // Single point tooltip
+        result += `<span style="color:${this.color}">●</span> ${this.series.name}: <b>${this.y.toFixed(decimals)}</b><br/>`;
+      }
+      return result;
+    }
   };
 
   // Configure plotOptions.series for series settings
