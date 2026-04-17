@@ -53,7 +53,32 @@ export function generateHighchartsOptions(
     colors: theme?.palette || ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9'],
     plotOptions: {
       series: {
-        lineWidth: theme?.lineWidthDefaults?.line || 2
+        lineWidth: theme?.lineWidthDefaults?.line || 2,
+        marker: {
+          enabled: preset === 'line' || preset === 'area' || preset === 'scatter',
+          radius: 4,
+          states: {
+            hover: {
+              enabled: true,
+              radius: 6
+            }
+          }
+        },
+        states: {
+          hover: {
+            enabled: true,
+            lineWidth: 3,
+            brightness: 0.1
+          },
+          select: {
+            enabled: true,
+            lineWidth: 3
+          }
+        },
+        cursor: 'pointer',
+        animation: {
+          duration: 1000
+        }
       }
     }
   };
@@ -174,7 +199,10 @@ export function generateHighchartsOptions(
         // For date fields, use datetime xAxis with timestamp data
         options.xAxis = {
           type: 'datetime',
-          title: { text: mapping.xField },
+          title: { 
+            text: mapping.xField,
+            style: { fontSize: '14px', fontWeight: 'bold', color: '#333333' }
+          },
           labels: {
             style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' },
             formatter: function() {
@@ -184,26 +212,47 @@ export function generateHighchartsOptions(
               const year = date.getFullYear();
               return `${month}/${day}/${year}`;
             }
-          }
+          },
+          gridLineColor: '#e6e6e6',
+          gridLineWidth: 1,
+          tickWidth: 1,
+          tickLength: 5,
+          lineColor: '#cccccc'
         };
       } else {
         // For non-date fields, use categories
         const xValues = [...new Set(rows.map(row => row[mapping.xField!]))].filter(val => val !== null);
         options.xAxis = {
           categories: xValues,
-          title: { text: mapping.xField },
+          title: { 
+            text: mapping.xField,
+            style: { fontSize: '14px', fontWeight: 'bold', color: '#333333' }
+          },
           labels: {
             style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' }
-          }
+          },
+          gridLineColor: '#e6e6e6',
+          gridLineWidth: 1,
+          tickWidth: 1,
+          tickLength: 5,
+          lineColor: '#cccccc'
         };
       }
     }
 
     options.yAxis = options.yAxis || {
-      title: { text: mapping.yFields?.[0] || 'Values' },
+      title: { 
+        text: mapping.yFields?.[0] || 'Values',
+        style: { fontSize: '14px', fontWeight: 'bold', color: '#333333' }
+      },
       labels: {
         style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' }
-      }
+      },
+      gridLineColor: '#e6e6e6',
+      gridLineWidth: 1,
+      tickWidth: 1,
+      tickLength: 5,
+      lineColor: '#cccccc'
     };
   }
 
@@ -220,12 +269,43 @@ export function generateHighchartsOptions(
   // Configure legend
   options.legend = {
     enabled: series.length > 1 || preset === 'pie',
-    itemStyle: theme?.legendStyle || { fontSize: '12px', color: '#333333' }
+    align: 'center',
+    verticalAlign: 'bottom',
+    layout: 'horizontal',
+    backgroundColor: theme?.backgroundColor || '#ffffff',
+    borderColor: '#cccccc',
+    borderWidth: 1,
+    borderRadius: 4,
+    itemStyle: theme?.legendStyle || { 
+      fontSize: '12px', 
+      color: '#333333',
+      fontWeight: 'normal'
+    },
+    itemHoverStyle: {
+      color: '#000000',
+      fontWeight: 'bold'
+    },
+    itemHiddenStyle: {
+      color: '#cccccc'
+    },
+    shadow: false,
+    itemMarginTop: 8,
+    itemMarginBottom: 8
   };
 
   // Configure tooltip
   options.tooltip = {
-    style: theme?.tooltipStyle || { fontSize: '12px' }
+    enabled: true,
+    shared: preset !== 'pie' && preset !== 'scatter', // Enable shared tooltip for most chart types
+    crosshairs: preset === 'line' || preset === 'area' || preset === 'scatter',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderColor: '#cccccc',
+    borderWidth: 1,
+    borderRadius: 4,
+    style: theme?.tooltipStyle || { fontSize: '12px', color: '#333333' },
+    padding: 8,
+    pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.y}</b><br/>',
+    headerFormat: '<span style="font-size: 10px">{point.key}</span><br/>'
   };
 
   // Stock chart specific options
