@@ -28,11 +28,15 @@ const CSVUpload = () => {
       if (result.success && result.data) {
         setDataset(result.data);
 
-        // Automatically set first column as X-axis field and remaining columns as Y-axis series
+        // Automatically set first column as X-axis field and remaining numeric columns as Y-axis series
         if (result.data.headers.length > 0) {
+          const numericColumns = result.data.headers.filter(header => {
+            const type = result.data.inferredTypes[header];
+            return type === 'number';
+          });
           setMapping({
             xField: result.data.headers[0],
-            yFields: result.data.headers.slice(1),
+            yFields: numericColumns.filter(col => col !== result.data.headers[0]),
             groupField: undefined,
             labelField: undefined,
             tooltipFields: []
