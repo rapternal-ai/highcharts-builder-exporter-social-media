@@ -4,7 +4,11 @@ import { useBuilderStore } from '../../store/builderStore';
 import { generateHighchartsOptions } from '../../lib/transformers/optionsGenerator';
 import { validateMapping } from '../../lib/validation/mappingValidator';
 
-const ChartPreview = () => {
+interface ChartPreviewProps {
+  chartRef?: React.RefObject<any>;
+}
+
+const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
   const { mode, dataset, mapping, preset, themeId } = useBuilderStore();
   const [chartOptions, setChartOptions] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +34,13 @@ const ChartPreview = () => {
       setError('Failed to load chart component');
     });
   }, []);
+
+  // Sync internal chart ref to external chart ref for export functionality
+  useEffect(() => {
+    if (externalChartRef && chartComponentRef.current) {
+      externalChartRef.current = chartComponentRef.current;
+    }
+  }, [externalChartRef, chartComponentRef.current]);
 
   const canShowChart = dataset && mapping.yFields && mapping.yFields.length > 0 && preset;
   const mappingValidation = dataset ? validateMapping(mapping, mode, preset) : null;

@@ -5,17 +5,34 @@ import ChartTypeSelector from '../../features/presets/ChartTypeSelector';
 import ThemeSelector from '../../features/themes/ThemeSelector';
 import ExportControls from '../../features/export/ExportControls';
 import { validateMapping } from '../../lib/validation/mappingValidator';
+import { exportChart } from '../../lib/export/exportService';
 import type { ExportSettings } from '../../features/export/ExportControls';
 
-const ControlPanel = () => {
+interface ControlPanelProps {
+  chartRef?: React.RefObject<any>;
+}
+
+const ControlPanel = ({ chartRef }: ControlPanelProps) => {
   const { mode, dataset, mapping } = useBuilderStore();
   
   const mappingValidation = dataset ? validateMapping(mapping, mode) : null;
 
-  const handleExport = (settings: ExportSettings) => {
-    // Simple export implementation - for now just show alert
-    alert(`Exporting chart as ${settings.format} (${settings.width}x${settings.height}px)`);
-    console.log('Export settings:', settings);
+  const handleExport = async (settings: ExportSettings) => {
+    if (!chartRef) {
+      alert('Chart not available for export');
+      return;
+    }
+
+    try {
+      const result = await exportChart(chartRef, settings);
+      if (result.success) {
+        console.log('Export successful');
+      } else {
+        alert(`Export failed: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Export error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   };
 
   return (

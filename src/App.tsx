@@ -2,9 +2,11 @@ import { useBuilderStore } from './store/builderStore';
 import ControlPanel from './components/builder/ControlPanel';
 import CSVPreview from './features/csv/CSVPreview';
 import ChartPreview from './components/preview/ChartPreview';
+import { useRef } from 'react';
 
 function App() {
   const { mode, setMode, dataset, mapping, preset } = useBuilderStore();
+  const chartRef = useRef<any>(null);
   
   const canShowChart = dataset && mapping.yFields && mapping.yFields.length > 0 && preset;
   
@@ -56,13 +58,13 @@ function App() {
       <div className="flex" style={{height: 'calc(100vh - 80px)'}}>
         {/* Left Control Panel */}
         <div className="w-80 bg-white border-r border-gray-200 overflow-y-auto sticky top-16" style={{height: 'calc(100vh - 80px)'}}>
-          <ControlPanel />
+          <ControlPanel chartRef={chartRef} />
         </div>
 
         {/* Right Preview Area */}
         <div className="flex-1 p-6 flex items-center justify-center">
           {canShowChart ? (
-            <ChartPreview />
+            <ChartPreview chartRef={chartRef} />
           ) : dataset ? (
             <div className="h-full bg-white rounded-lg border border-gray-200 p-6 w-full max-w-5xl">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Data Preview</h2>
