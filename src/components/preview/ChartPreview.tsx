@@ -9,7 +9,27 @@ interface ChartPreviewProps {
 }
 
 const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
-  const { mode, dataset, mapping, preset, themeId, chartDimensions, title, subtitle, source } = useBuilderStore();
+  const {
+    mode, dataset, mapping, preset, themeId, chartDimensions,
+    title, subtitle, source,
+    titleAlign, subtitleAlign, titleUseHTML, showCaption, captionText,
+    backgroundColor, borderRadius, spacingPreset, invertedChart, polar, zoomType, scrollablePlotArea, showCredits,
+    xAxisTitle, xAxisType, xAxisLabelRotation, xAxisLabelStep, xAxisMin, xAxisMax, xAxisTickInterval,
+    xAxisShowGridlines, xAxisShowAxisLine, xAxisReverse, xAxisStartOnTick, xAxisEndOnTick,
+    yAxisTitle, yAxisSecondaryEnabled, yAxisSecondaryTitle, yAxisMin, yAxisMax, yAxisSoftMin, yAxisSoftMax,
+    yAxisTickInterval, yAxisOpposite, yAxisShowGridlines, yAxisGridlineStyle, yAxisAllowDecimals,
+    yAxisValuePrefix, yAxisValueSuffix, yAxisNumberFormat,
+    seriesStacking, seriesLineWidth, seriesMarkerEnabled, seriesMarkerSize, seriesDashStyle,
+    seriesFillOpacity, seriesBorderWidth, seriesPointPadding, seriesGroupPadding, seriesConnectNulls,
+    seriesAnimation, seriesAnimationDuration, seriesShowDataLabels, seriesShowInLegend,
+    legendShow, legendPosition, legendHorizontalAlign, legendVerticalAlign, legendLayout,
+    legendFloating, legendBackgroundColor, legendBorder, legendItemFontSize,
+    tooltipEnabled, tooltipShared, tooltipSplit, tooltipUseHTML, tooltipValueDecimals,
+    tooltipValuePrefix, tooltipValueSuffix, tooltipDateFormat, tooltipTemplateMode,
+    tooltipBackgroundColor, tooltipBorderRadius,
+    dataLabelsEnabled, dataLabelPosition, dataLabelFormat,
+    axisLabelFontSize, axisLabelColor, labelOverflow
+  } = useBuilderStore();
   const [chartOptions, setChartOptions] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [HighchartsReact, setHighchartsReact] = useState<any>(null);
@@ -74,7 +94,26 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
   useEffect(() => {
     if (canShowChart && mappingValidation?.isValid) {
       try {
-        const options = generateHighchartsOptions(dataset, mapping, preset, themeId, chartDimensions, title, subtitle, source);
+        const options = generateHighchartsOptions(
+          dataset, mapping, preset, themeId, chartDimensions, title, subtitle, source,
+          titleAlign, subtitleAlign, titleUseHTML, showCaption, captionText,
+          backgroundColor, borderRadius, spacingPreset, invertedChart, polar, zoomType, scrollablePlotArea, showCredits,
+          xAxisTitle, xAxisType, xAxisLabelRotation, xAxisLabelStep, xAxisMin, xAxisMax, xAxisTickInterval,
+          xAxisShowGridlines, xAxisShowAxisLine, xAxisReverse, xAxisStartOnTick, xAxisEndOnTick,
+          yAxisTitle, yAxisSecondaryEnabled, yAxisSecondaryTitle, yAxisMin, yAxisMax, yAxisSoftMin, yAxisSoftMax,
+          yAxisTickInterval, yAxisOpposite, yAxisShowGridlines, yAxisGridlineStyle, yAxisAllowDecimals,
+          yAxisValuePrefix, yAxisValueSuffix, yAxisNumberFormat,
+          seriesStacking, seriesLineWidth, seriesMarkerEnabled, seriesMarkerSize, seriesDashStyle,
+          seriesFillOpacity, seriesBorderWidth, seriesPointPadding, seriesGroupPadding, seriesConnectNulls,
+          seriesAnimation, seriesAnimationDuration, seriesShowDataLabels, seriesShowInLegend,
+          legendShow, legendPosition, legendHorizontalAlign, legendVerticalAlign, legendLayout,
+          legendFloating, legendBackgroundColor, legendBorder, legendItemFontSize,
+          tooltipEnabled, tooltipShared, tooltipSplit, tooltipUseHTML, tooltipValueDecimals,
+          tooltipValuePrefix, tooltipValueSuffix, tooltipDateFormat, tooltipTemplateMode,
+          tooltipBackgroundColor, tooltipBorderRadius,
+          dataLabelsEnabled, dataLabelPosition, dataLabelFormat,
+          axisLabelFontSize, axisLabelColor, labelOverflow
+        );
         setChartOptions(options);
         setError(null);
       } catch (err) {
@@ -85,7 +124,27 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
       setChartOptions(null);
       setError(null);
     }
-  }, [dataset, mapping, preset, themeId, chartDimensions, title, subtitle, source, canShowChart, mappingValidation?.isValid]);
+  }, [
+    dataset, mapping, preset, themeId, chartDimensions, title, subtitle, source,
+    titleAlign, subtitleAlign, titleUseHTML, showCaption, captionText,
+    backgroundColor, borderRadius, spacingPreset, invertedChart, polar, zoomType, scrollablePlotArea, showCredits,
+    xAxisTitle, xAxisType, xAxisLabelRotation, xAxisLabelStep, xAxisMin, xAxisMax, xAxisTickInterval,
+    xAxisShowGridlines, xAxisShowAxisLine, xAxisReverse, xAxisStartOnTick, xAxisEndOnTick,
+    yAxisTitle, yAxisSecondaryEnabled, yAxisSecondaryTitle, yAxisMin, yAxisMax, yAxisSoftMin, yAxisSoftMax,
+    yAxisTickInterval, yAxisOpposite, yAxisShowGridlines, yAxisGridlineStyle, yAxisAllowDecimals,
+    yAxisValuePrefix, yAxisValueSuffix, yAxisNumberFormat,
+    seriesStacking, seriesLineWidth, seriesMarkerEnabled, seriesMarkerSize, seriesDashStyle,
+    seriesFillOpacity, seriesBorderWidth, seriesPointPadding, seriesGroupPadding, seriesConnectNulls,
+    seriesAnimation, seriesAnimationDuration, seriesShowDataLabels, seriesShowInLegend,
+    legendShow, legendPosition, legendHorizontalAlign, legendVerticalAlign, legendLayout,
+    legendFloating, legendBackgroundColor, legendBorder, legendItemFontSize,
+    tooltipEnabled, tooltipShared, tooltipSplit, tooltipUseHTML, tooltipValueDecimals,
+    tooltipValuePrefix, tooltipValueSuffix, tooltipDateFormat, tooltipTemplateMode,
+    tooltipBackgroundColor, tooltipBorderRadius,
+    dataLabelsEnabled, dataLabelPosition, dataLabelFormat,
+    axisLabelFontSize, axisLabelColor, labelOverflow,
+    canShowChart, mappingValidation?.isValid
+  ]);
 
 
   return (

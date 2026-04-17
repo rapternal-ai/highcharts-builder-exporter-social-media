@@ -23,7 +23,88 @@ export function generateHighchartsOptions(
   chartDimensions?: { width: number; height: number },
   title?: string,
   subtitle?: string,
-  source?: string
+  source?: string,
+  // Advanced settings
+  titleAlign?: 'left' | 'center' | 'right',
+  subtitleAlign?: 'left' | 'center' | 'right',
+  titleUseHTML?: boolean,
+  showCaption?: boolean,
+  captionText?: string,
+  backgroundColor?: string,
+  borderRadius?: number,
+  spacingPreset?: 'tight' | 'normal' | 'spacious',
+  invertedChart?: boolean,
+  polar?: boolean,
+  zoomType?: 'none' | 'x' | 'y' | 'xy',
+  scrollablePlotArea?: boolean,
+  showCredits?: boolean,
+  xAxisTitle?: string,
+  xAxisType?: 'category' | 'linear' | 'datetime' | 'logarithmic',
+  xAxisLabelRotation?: number,
+  xAxisLabelStep?: number,
+  xAxisMin?: number,
+  xAxisMax?: number,
+  xAxisTickInterval?: number,
+  xAxisShowGridlines?: boolean,
+  xAxisShowAxisLine?: boolean,
+  xAxisReverse?: boolean,
+  xAxisStartOnTick?: boolean,
+  xAxisEndOnTick?: boolean,
+  yAxisTitle?: string,
+  yAxisSecondaryEnabled?: boolean,
+  yAxisSecondaryTitle?: string,
+  yAxisMin?: number,
+  yAxisMax?: number,
+  yAxisSoftMin?: number,
+  yAxisSoftMax?: number,
+  yAxisTickInterval?: number,
+  yAxisOpposite?: boolean,
+  yAxisShowGridlines?: boolean,
+  yAxisGridlineStyle?: 'solid' | 'dashed' | 'dotted',
+  yAxisAllowDecimals?: boolean,
+  yAxisValuePrefix?: string,
+  yAxisValueSuffix?: string,
+  yAxisNumberFormat?: 'plain' | 'currency' | 'percent' | 'thousands' | 'millions' | 'billions',
+  seriesStacking?: 'none' | 'normal' | 'percent',
+  seriesLineWidth?: number,
+  seriesMarkerEnabled?: boolean,
+  seriesMarkerSize?: number,
+  seriesDashStyle?: 'Solid' | 'ShortDash' | 'Dot' | 'Dash' | 'LongDash',
+  seriesFillOpacity?: number,
+  seriesBorderWidth?: number,
+  seriesPointPadding?: number,
+  seriesGroupPadding?: number,
+  seriesConnectNulls?: boolean,
+  seriesAnimation?: boolean,
+  seriesAnimationDuration?: number,
+  seriesShowDataLabels?: boolean,
+  seriesShowInLegend?: boolean,
+  legendShow?: boolean,
+  legendPosition?: 'top' | 'right' | 'bottom' | 'left',
+  legendHorizontalAlign?: 'left' | 'center' | 'right',
+  legendVerticalAlign?: 'top' | 'middle' | 'bottom',
+  legendLayout?: 'horizontal' | 'vertical',
+  legendFloating?: boolean,
+  legendBackgroundColor?: string,
+  legendBorder?: boolean,
+  legendItemFontSize?: string,
+  tooltipEnabled?: boolean,
+  tooltipShared?: boolean,
+  tooltipSplit?: boolean,
+  tooltipUseHTML?: boolean,
+  tooltipValueDecimals?: number,
+  tooltipValuePrefix?: string,
+  tooltipValueSuffix?: string,
+  tooltipDateFormat?: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'custom',
+  tooltipTemplateMode?: 'default' | 'compact' | 'detailed' | 'custom',
+  tooltipBackgroundColor?: string,
+  tooltipBorderRadius?: number,
+  dataLabelsEnabled?: boolean,
+  dataLabelPosition?: 'auto' | 'inside' | 'outside' | 'above',
+  dataLabelFormat?: 'value' | 'percent' | 'category-value' | 'custom',
+  axisLabelFontSize?: string,
+  axisLabelColor?: string,
+  labelOverflow?: 'wrap' | 'truncate' | 'rotate'
 ): any {
   const presetDef = getPresetById(preset);
   const theme = themeId ? getThemeById(themeId) : null;
@@ -35,19 +116,40 @@ export function generateHighchartsOptions(
   const { rows } = dataset;
   const isStockChart = presetDef.stockChart || false;
 
+  // Calculate spacing based on preset
+  const getSpacing = () => {
+    switch (spacingPreset) {
+      case 'tight': return { top: 10, right: 10, bottom: 10, left: 10 };
+      case 'spacious': return { top: 30, right: 30, bottom: 30, left: 30 };
+      default: return { top: 20, right: 20, bottom: 20, left: 20 };
+    }
+  };
+
   // Base options
   const options: any = {
     chart: {
       type: presetDef.highchartsType,
-      backgroundColor: theme?.backgroundColor || '#ffffff',
+      backgroundColor: backgroundColor || theme?.backgroundColor || '#ffffff',
       width: chartDimensions?.width || 800,
       height: chartDimensions?.height || 800,
-      spacingTop: 20,
-      marginBottom: isStockChart ? 180 : 120
+      spacing: getSpacing(),
+      marginBottom: isStockChart ? 180 : 120,
+      inverted: invertedChart || false,
+      polar: polar || false,
+      zoomType: zoomType === 'none' ? undefined : zoomType,
+      scrollablePlotArea: scrollablePlotArea ? {
+        minWidth: chartDimensions?.width || 800,
+        scrollPositionX: 0
+      } : undefined,
+      style: {
+        fontFamily: 'Roboto Condensed, sans-serif',
+        borderRadius: `${borderRadius || 0}px`
+      }
     },
     title: {
       text: title || `${presetDef.name} Chart`,
-      align: 'left',
+      align: titleAlign || 'left',
+      useHTML: titleUseHTML || false,
       style: {
         fontFamily: 'Georgia, serif',
         fontSize: '1.5rem',
@@ -57,11 +159,23 @@ export function generateHighchartsOptions(
     },
     subtitle: {
       text: subtitle || `Generated from ${dataset.sourceFileName}`,
-      align: 'left',
-      style: theme?.subtitleStyle || { fontSize: '12px', color: '#666666' }
+      align: subtitleAlign || 'left',
+      style: {
+        fontFamily: 'Roboto Condensed, sans-serif',
+        fontSize: '14px',
+        color: '#666666'
+      }
     },
+    caption: showCaption ? {
+      text: captionText || '',
+      style: {
+        fontFamily: 'Roboto Condensed, sans-serif',
+        fontSize: '12px',
+        color: '#666666'
+      }
+    } : undefined,
     credits: {
-      enabled: true,
+      enabled: showCredits !== false,
       text: source || '',
       href: '',
       style: {
@@ -220,17 +334,24 @@ export function generateHighchartsOptions(
       // Check if xField is a date type
       const xFieldType = dataset.inferredTypes[mapping.xField];
       const isDateField = xFieldType === 'date';
-      
+
       if (isDateField) {
         // For date fields, use datetime xAxis with timestamp data
         options.xAxis = {
-          type: 'datetime',
-          title: { 
-            text: mapping.xField,
+          type: xAxisType || 'datetime',
+          title: {
+            text: xAxisTitle || mapping.xField,
             style: { fontSize: '14px', fontWeight: 'bold', color: '#333333' }
           },
           labels: {
-            style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' },
+            style: {
+              ...theme?.axisLabelStyle,
+              fontSize: axisLabelFontSize || '12px',
+              color: axisLabelColor || '#666666'
+            },
+            rotation: xAxisLabelRotation || 0,
+            step: xAxisLabelStep || 1,
+            overflow: labelOverflow || 'wrap',
             formatter: function() {
               const date = new Date(this.value);
               const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -239,69 +360,143 @@ export function generateHighchartsOptions(
               return `${month}/${day}/${year}`;
             }
           },
-          gridLineColor: '#e6e6e6',
-          gridLineWidth: 1,
-          tickWidth: 1,
-          tickLength: 5,
-          lineColor: '#cccccc'
+          min: xAxisMin,
+          max: xAxisMax,
+          tickInterval: xAxisTickInterval,
+          gridLineColor: xAxisShowGridlines !== false ? '#e6e6e6' : 'transparent',
+          gridLineWidth: xAxisShowGridlines !== false ? 1 : 0,
+          tickWidth: xAxisShowAxisLine !== false ? 1 : 0,
+          tickLength: xAxisShowAxisLine !== false ? 5 : 0,
+          lineColor: xAxisShowAxisLine !== false ? '#cccccc' : 'transparent',
+          reversed: xAxisReverse || false,
+          startOnTick: xAxisStartOnTick !== false,
+          endOnTick: xAxisEndOnTick !== false
         };
       } else {
         // For non-date fields, use categories
         const xValues = [...new Set(rows.map(row => row[mapping.xField!]))].filter(val => val !== null);
         options.xAxis = {
           categories: xValues,
-          title: { 
-            text: mapping.xField,
+          type: xAxisType || 'category',
+          title: {
+            text: xAxisTitle || mapping.xField,
             style: { fontSize: '14px', fontWeight: 'bold', color: '#333333' }
           },
           labels: {
-            style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' }
+            style: {
+              ...theme?.axisLabelStyle,
+              fontSize: axisLabelFontSize || '12px',
+              color: axisLabelColor || '#666666'
+            },
+            rotation: xAxisLabelRotation || 0,
+            step: xAxisLabelStep || 1,
+            overflow: labelOverflow || 'wrap'
           },
-          gridLineColor: '#e6e6e6',
-          gridLineWidth: 1,
-          tickWidth: 1,
-          tickLength: 5,
-          lineColor: '#cccccc'
+          min: xAxisMin,
+          max: xAxisMax,
+          tickInterval: xAxisTickInterval,
+          gridLineColor: xAxisShowGridlines !== false ? '#e6e6e6' : 'transparent',
+          gridLineWidth: xAxisShowGridlines !== false ? 1 : 0,
+          tickWidth: xAxisShowAxisLine !== false ? 1 : 0,
+          tickLength: xAxisShowAxisLine !== false ? 5 : 0,
+          lineColor: xAxisShowAxisLine !== false ? '#cccccc' : 'transparent',
+          reversed: xAxisReverse || false,
+          startOnTick: xAxisStartOnTick !== false,
+          endOnTick: xAxisEndOnTick !== false
         };
       }
     }
 
     options.yAxis = options.yAxis || {
-      title: { 
-        text: mapping.yFields?.[0] || 'Values',
+      title: {
+        text: yAxisTitle || mapping.yFields?.[0] || 'Values',
         style: { fontSize: '14px', fontWeight: 'bold', color: '#333333' }
       },
       labels: {
-        style: theme?.axisLabelStyle || { fontSize: '12px', color: '#666666' }
+        style: {
+          ...theme?.axisLabelStyle,
+          fontSize: axisLabelFontSize || '12px',
+          color: axisLabelColor || '#666666'
+        },
+        formatter: function() {
+          let value = this.value;
+          const prefix = yAxisValuePrefix || '';
+          const suffix = yAxisValueSuffix || '';
+          const format = yAxisNumberFormat || 'plain';
+
+          if (format === 'currency') {
+            return `${prefix}$${value.toLocaleString()}${suffix}`;
+          } else if (format === 'percent') {
+            return `${prefix}${value}%${suffix}`;
+          } else if (format === 'thousands') {
+            return `${prefix}${(value / 1000).toFixed(1)}K${suffix}`;
+          } else if (format === 'millions') {
+            return `${prefix}${(value / 1000000).toFixed(1)}M${suffix}`;
+          } else if (format === 'billions') {
+            return `${prefix}${(value / 1000000000).toFixed(1)}B${suffix}`;
+          }
+          return `${prefix}${value.toLocaleString()}${suffix}`;
+        }
       },
-      gridLineColor: '#e6e6e6',
-      gridLineWidth: 1,
+      min: yAxisMin,
+      max: yAxisMax,
+      softMin: yAxisSoftMin,
+      softMax: yAxisSoftMax,
+      tickInterval: yAxisTickInterval,
+      opposite: yAxisOpposite || false,
+      gridLineColor: yAxisShowGridlines !== false ? '#e6e6e6' : 'transparent',
+      gridLineWidth: yAxisShowGridlines !== false ? 1 : 0,
+      gridLineDashStyle: yAxisGridlineStyle || 'solid',
       tickWidth: 1,
       tickLength: 5,
-      lineColor: '#cccccc'
+      lineColor: '#cccccc',
+      allowDecimals: yAxisAllowDecimals !== false
     };
+
+    // Secondary y-axis
+    if (yAxisSecondaryEnabled) {
+      options.yAxis = [options.yAxis, {
+        title: {
+          text: yAxisSecondaryTitle || 'Secondary',
+          style: { fontSize: '14px', fontWeight: 'bold', color: '#333333' }
+        },
+        opposite: true,
+        labels: {
+          style: {
+            ...theme?.axisLabelStyle,
+            fontSize: axisLabelFontSize || '12px',
+            color: axisLabelColor || '#666666'
+          }
+        },
+        gridLineColor: 'transparent',
+        gridLineWidth: 0
+      }];
+    }
   }
 
   // Configure stacking for stacked charts
-  if (preset === 'stackedColumn') {
+  if (seriesStacking && seriesStacking !== 'none') {
     options.plotOptions = {
       ...options.plotOptions,
-      column: {
-        stacking: 'normal'
+      series: {
+        stacking: seriesStacking
       }
     };
   }
 
   // Configure legend
   options.legend = {
-    enabled: series.length > 1 || preset === 'pie',
-    align: 'right',
-    verticalAlign: 'top',
+    enabled: legendShow !== false && (series.length > 1 || preset === 'pie'),
+    align: legendHorizontalAlign || 'right',
+    verticalAlign: legendVerticalAlign || 'top',
     y: 40,
-    layout: 'horizontal',
-    borderWidth: 0,
+    layout: legendLayout || 'horizontal',
+    floating: legendFloating || false,
+    backgroundColor: legendBackgroundColor || undefined,
+    borderWidth: legendBorder ? 1 : 0,
+    borderColor: legendBorder ? '#cccccc' : undefined,
     itemStyle: {
-      fontSize: '12px',
+      fontSize: legendItemFontSize || '12px',
       color: '#333333',
       fontWeight: 'normal'
     },
@@ -322,17 +517,61 @@ export function generateHighchartsOptions(
 
   // Configure tooltip
   options.tooltip = {
-    enabled: true,
-    shared: preset !== 'pie' && preset !== 'scatter', // Enable shared tooltip for most chart types
-    crosshairs: preset === 'line' || preset === 'area' || preset === 'scatter',
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    borderColor: '#cccccc',
-    borderWidth: 1,
-    borderRadius: 4,
-    style: theme?.tooltipStyle || { fontSize: '12px', color: '#333333' },
-    padding: 8,
-    pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.y}</b><br/>',
+    enabled: tooltipEnabled !== false,
+    shared: tooltipShared !== false,
+    split: tooltipSplit || false,
+    useHTML: tooltipUseHTML || false,
+    valueDecimals: tooltipValueDecimals !== undefined ? tooltipValueDecimals : 2,
+    valuePrefix: tooltipValuePrefix || '',
+    valueSuffix: tooltipValueSuffix || '',
+    backgroundColor: tooltipBackgroundColor || '#ffffff',
+    borderRadius: tooltipBorderRadius || 3,
+    style: {
+      fontSize: '12px'
+    },
+    pointFormat: `<span style="color:{point.color}">●</span> {series.name}: <b>{point.y:${tooltipValueDecimals !== undefined ? tooltipValueDecimals : 2}}</b><br/>`,
     headerFormat: '<span style="font-size: 10px">{point.key}</span><br/>'
+  };
+
+  // Configure plotOptions.series for series settings
+  options.plotOptions = {
+    ...options.plotOptions,
+    series: {
+      lineWidth: seriesLineWidth || 2,
+      marker: {
+        enabled: seriesMarkerEnabled !== false,
+        radius: seriesMarkerSize || 6
+      },
+      dashStyle: seriesDashStyle || 'Solid',
+      fillOpacity: seriesFillOpacity || 0.75,
+      borderWidth: seriesBorderWidth || 0,
+      pointPadding: seriesPointPadding || 0,
+      groupPadding: seriesGroupPadding || 0,
+      connectNulls: seriesConnectNulls !== false,
+      animation: seriesAnimation !== false,
+      animationDuration: seriesAnimationDuration || 1000,
+      showInLegend: seriesShowInLegend !== false,
+      dataLabels: {
+        enabled: dataLabelsEnabled || false,
+        allowOverlap: true,
+        format: dataLabelFormat === 'percent' ? '{point.percentage:.1f}%' :
+                 dataLabelFormat === 'category-value' ? '{point.category}: {point.y}' :
+                 dataLabelFormat === 'value' ? '{point.y}' : '{point.y}',
+        style: {
+          fontSize: '11px',
+          fontWeight: 'bold',
+          color: '#333333'
+        }
+      }
+    },
+    column: {
+      pointPadding: seriesPointPadding || 0,
+      groupPadding: seriesGroupPadding || 0
+    },
+    bar: {
+      pointPadding: seriesPointPadding || 0,
+      groupPadding: seriesGroupPadding || 0
+    }
   };
 
   // Stock chart specific options
