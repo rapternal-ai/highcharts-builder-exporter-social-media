@@ -93,6 +93,8 @@ interface BuilderStore extends BuilderState {
   setAxisLabelFontSize: (size: string) => void;
   setAxisLabelColor: (color: string) => void;
   setLabelOverflow: (overflow: 'wrap' | 'truncate' | 'rotate') => void;
+  setRangeSelectorEnabled: (enabled: boolean) => void;
+  setRangeSelectorButtons: (buttons: ('1m' | '3m' | '6m' | 'ytd' | '1y' | 'all')[]) => void;
   clearDataset: () => void;
   reset: () => void;
 }
@@ -199,6 +201,8 @@ export const useBuilderStore = create<BuilderStore>((set) => ({
   setAxisLabelFontSize: (axisLabelFontSize) => set({ axisLabelFontSize }),
   setAxisLabelColor: (axisLabelColor) => set({ axisLabelColor }),
   setLabelOverflow: (labelOverflow) => set({ labelOverflow }),
+  setRangeSelectorEnabled: (rangeSelectorEnabled) => set({ rangeSelectorEnabled }),
+  setRangeSelectorButtons: (rangeSelectorButtons) => set({ rangeSelectorButtons }),
   clearDataset: () => set({ dataset: undefined, mapping: {} }),
   reset: () => set(initialState),
 }));

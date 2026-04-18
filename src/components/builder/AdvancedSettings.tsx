@@ -92,6 +92,9 @@ const AdvancedSettings = () => {
     axisLabelFontSize, setAxisLabelFontSize,
     axisLabelColor, setAxisLabelColor,
     labelOverflow, setLabelOverflow,
+    // Range selector settings
+    rangeSelectorEnabled, setRangeSelectorEnabled,
+    rangeSelectorButtons, setRangeSelectorButtons,
   } = useBuilderStore();
 
   const panels = [
@@ -103,6 +106,7 @@ const AdvancedSettings = () => {
     { id: 'legend', name: 'Legend', icon: '🔖' },
     { id: 'tooltip', name: 'Tooltip', icon: '💡' },
     { id: 'labels', name: 'Labels', icon: '🏷️' },
+    { id: 'zoom', name: 'Zoom', icon: '🔍' },
   ];
 
   return (
@@ -1079,6 +1083,54 @@ const AdvancedSettings = () => {
                     <option value="rotate">Rotate</option>
                   </select>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activePanel === 'zoom' && (
+          <div className="space-y-6">
+            <div>
+              <h4 className="font-medium text-gray-900 mb-4">Date Range Selector</h4>
+              <p className="text-sm text-gray-600 mb-4">Add a date range selector to zoom into specific time periods.</p>
+
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="checkbox"
+                    id="rangeSelectorEnabled"
+                    checked={rangeSelectorEnabled || false}
+                    onChange={(e) => setRangeSelectorEnabled(e.target.checked)}
+                    className="rounded"
+                  />
+                  <label htmlFor="rangeSelectorEnabled" className="text-sm text-gray-700">Enable Range Selector</label>
+                </div>
+
+                {rangeSelectorEnabled && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Range Buttons</label>
+                    <div className="space-y-2">
+                      {['1m', '3m', '6m', 'ytd', '1y', 'all'].map((button) => (
+                        <label key={button} className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            checked={rangeSelectorButtons?.includes(button as any) || false}
+                            onChange={(e) => {
+                              const currentButtons = rangeSelectorButtons || [];
+                              if (e.target.checked) {
+                                setRangeSelectorButtons([...currentButtons, button as any]);
+                              } else {
+                                setRangeSelectorButtons(currentButtons.filter(b => b !== button));
+                              }
+                            }}
+                            className="rounded"
+                          />
+                          <span className="text-sm text-gray-700">{button.toUpperCase()}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

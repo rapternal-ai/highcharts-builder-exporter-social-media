@@ -152,4 +152,6 @@ export type BuilderState = {
   axisLabelFontSize?: string;
   axisLabelColor?: string;
   labelOverflow?: 'wrap' | 'truncate' | 'rotate';
+  rangeSelectorEnabled?: boolean;
+  rangeSelectorButtons?: ('1m' | '3m' | '6m' | 'ytd' | '1y' | 'all')[];
 };

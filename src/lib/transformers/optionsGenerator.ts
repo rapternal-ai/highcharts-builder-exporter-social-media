@@ -104,7 +104,9 @@ export function generateHighchartsOptions(
   dataLabelFormat?: 'value' | 'percent' | 'category-value' | 'custom',
   axisLabelFontSize?: string,
   axisLabelColor?: string,
-  labelOverflow?: 'wrap' | 'truncate' | 'rotate'
+  labelOverflow?: 'wrap' | 'truncate' | 'rotate',
+  rangeSelectorEnabled?: boolean,
+  rangeSelectorButtons?: ('1m' | '3m' | '6m' | 'ytd' | '1y' | 'all')[]
 ): any {
   const presetDef = getPresetById(preset);
   const theme = themeId ? getThemeById(themeId) : null;
@@ -597,11 +599,30 @@ export function generateHighchartsOptions(
     }
   };
 
-  // Stock chart specific options
-  if (isStockChart) {
+  // Range selector - works for all chart types when enabled
+  if (rangeSelectorEnabled || isStockChart) {
+    const buttons = rangeSelectorButtons || ['1m', '3m', '6m', 'ytd', '1y', 'all'];
+    const buttonConfig = buttons.map(btn => {
+      const buttonMap: Record<string, any> = {
+        '1m': { type: 'month', count: 1, text: '1m' },
+        '3m': { type: 'month', count: 3, text: '3m' },
+        '6m': { type: 'month', count: 6, text: '6m' },
+        'ytd': { type: 'ytd', text: 'YTD' },
+        '1y': { type: 'year', count: 1, text: '1y' },
+        'all': { type: 'all', text: 'All' }
+      };
+      return buttonMap[btn];
+    });
+
     options.rangeSelector = {
-      selected: 1
+      enabled: true,
+      buttons: buttonConfig,
+      selected: buttonConfig.length - 1 // Select 'All' by default
     };
+  }
+
+  // Stock chart specific navigator
+  if (isStockChart) {
     options.navigator = {
       enabled: true,
       height: 60,

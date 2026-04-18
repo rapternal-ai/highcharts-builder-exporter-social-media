@@ -28,7 +28,8 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
     tooltipValuePrefix, tooltipValueSuffix, tooltipDateFormat, tooltipTemplateMode,
     tooltipBackgroundColor, tooltipBorderRadius,
     dataLabelsEnabled, dataLabelPosition, dataLabelFormat,
-    axisLabelFontSize, axisLabelColor, labelOverflow
+    axisLabelFontSize, axisLabelColor, labelOverflow,
+    rangeSelectorEnabled, rangeSelectorButtons
   } = useBuilderStore();
   const [chartOptions, setChartOptions] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -112,7 +113,8 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
           tooltipValuePrefix, tooltipValueSuffix, tooltipDateFormat, tooltipTemplateMode,
           tooltipBackgroundColor, tooltipBorderRadius,
           dataLabelsEnabled, dataLabelPosition, dataLabelFormat,
-          axisLabelFontSize, axisLabelColor, labelOverflow
+          axisLabelFontSize, axisLabelColor, labelOverflow,
+          rangeSelectorEnabled, rangeSelectorButtons
         );
         setChartOptions(options);
         setError(null);
@@ -143,6 +145,7 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
     tooltipBackgroundColor, tooltipBorderRadius,
     dataLabelsEnabled, dataLabelPosition, dataLabelFormat,
     axisLabelFontSize, axisLabelColor, labelOverflow,
+    rangeSelectorEnabled, rangeSelectorButtons,
     canShowChart, mappingValidation?.isValid
   ]);
 
