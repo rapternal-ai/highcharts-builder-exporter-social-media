@@ -517,6 +517,8 @@ export function generateHighchartsOptions(
 
   // Configure tooltip
   const decimals = tooltipValueDecimals !== undefined ? tooltipValueDecimals : 2;
+  const isDateField = mapping.xField && dataset.inferredTypes[mapping.xField] === 'date';
+
   options.tooltip = {
     enabled: tooltipEnabled !== false,
     shared: tooltipShared !== false,
@@ -531,7 +533,14 @@ export function generateHighchartsOptions(
       fontSize: '12px'
     },
     formatter: function() {
-      let result = '<span style="font-size: 10px">' + (this.key || this.x) + '</span><br/>';
+      // Format the x-axis value (date or category)
+      let xAxisValue = this.key || this.x;
+      if (isDateField && typeof xAxisValue === 'number') {
+        const date = new Date(xAxisValue);
+        xAxisValue = date.toLocaleDateString();
+      }
+
+      let result = '<span style="font-size: 10px">' + xAxisValue + '</span><br/>';
       if (this.points) {
         // Shared tooltip (multiple series)
         this.points.forEach((point: any) => {
