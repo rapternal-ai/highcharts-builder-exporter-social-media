@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useBuilderStore } from '../../store/builderStore';
 import CSVUpload from '../../features/csv/CSVUpload';
 import ColumnMapping from '../../features/mapping/ColumnMapping';
@@ -10,195 +11,200 @@ import type { ExportSettings } from '../../features/export/ExportControls';
 
 interface ControlPanelProps {
   chartRef?: React.RefObject<any>;
+  onOpenAdvanced?: () => void;
 }
 
-const ControlPanel = ({ chartRef }: ControlPanelProps) => {
+const TABS = [
+  { id: 'data',   label: 'Data',   icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> },
+  { id: 'chart',  label: 'Chart',  icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> },
+  { id: 'style',  label: 'Style',  icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg> },
+  { id: 'export', label: 'Export', icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> },
+];
+
+const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">{children}</h3>
+);
+
+const ControlPanel = ({ chartRef, onOpenAdvanced }: ControlPanelProps) => {
+  const [activeTab, setActiveTab] = useState('data');
   const { mode, dataset, mapping, title, setTitle, subtitle, setSubtitle, source, setSource } = useBuilderStore();
-  
+
   const mappingValidation = dataset ? validateMapping(mapping, mode) : null;
+  const canExport = !!(dataset && mapping.yFields && mapping.yFields.length > 0);
 
   const handleExport = async (settings: ExportSettings) => {
-    if (!chartRef) {
-      alert('Chart not available for export');
-      return;
-    }
-
+    if (!chartRef) { alert('Chart not available for export'); return; }
     try {
       const result = await exportChart(chartRef, settings);
-      if (result.success) {
-        console.log('Export successful');
-      } else {
-        alert(`Export failed: ${result.error}`);
-      }
+      if (!result.success) alert(`Export failed: ${result.error}`);
     } catch (error) {
       alert(`Export error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
   return (
-    <div className="p-6">
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-2">
-          Chart Builder
-        </h2>
-        <p className="text-sm text-gray-600">
-          Current mode: <span className="font-medium capitalize">{mode}</span>
-        </p>
+    <div className="flex flex-col h-full">
+      {/* Tab Bar */}
+      <div className="flex border-b border-gray-200 bg-gray-50 flex-shrink-0">
+        {TABS.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium transition-colors border-b-2 ${
+              activeTab === tab.id
+                ? 'border-blue-600 text-blue-600 bg-white'
+                : 'border-transparent text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            {tab.icon}
+            {tab.label}
+          </button>
+        ))}
       </div>
 
-      {/* Stage sections */}
-      <div className="space-y-6">
-        <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-4">1. Data Upload</h3>
-          <CSVUpload />
-          {dataset && (
-            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-              <div className="flex items-center space-x-2">
-                <span className="text-green-600">✅</span>
-                <div>
-                  <p className="text-sm font-medium text-green-800">
-                    {dataset.sourceFileName}
-                  </p>
-                  <p className="text-xs text-green-700">
-                    {dataset.rows.length} rows, {dataset.headers.length} columns
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+      {/* Tab Content */}
+      <div className="flex-1 overflow-y-auto px-5 py-5 space-y-7">
 
-        <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-4">2. Column Mapping</h3>
-          {dataset ? (
-            <div>
-              <ColumnMapping />
-              {mappingValidation && (
-                <div className="mt-4">
-                  {mappingValidation.errors.length > 0 && (
-                    <div className="p-3 bg-red-50 border border-red-200 rounded-lg mb-2">
-                      <div className="flex items-start space-x-2">
-                        <span className="text-red-400">⚠️</span>
-                        <div>
-                          <h4 className="text-sm font-medium text-red-800">Mapping Issues</h4>
-                          <ul className="text-sm text-red-700 mt-1 space-y-1">
-                            {mappingValidation.errors.map((error, index) => (
-                              <li key={index}>• {error}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {mappingValidation.warnings.length > 0 && (
-                    <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg mb-2">
-                      <div className="flex items-start space-x-2">
-                        <span className="text-yellow-400">⚡</span>
-                        <div>
-                          <h4 className="text-sm font-medium text-yellow-800">Suggestions</h4>
-                          <ul className="text-sm text-yellow-700 mt-1 space-y-1">
-                            {mappingValidation.warnings.map((warning, index) => (
-                              <li key={index}>• {warning}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {mappingValidation.isValid && (
-                    <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-green-600">✅</span>
-                        <p className="text-sm font-medium text-green-800">
-                          Mapping configuration is valid
-                        </p>
-                      </div>
-                    </div>
-                  )}
+        {/* ─── DATA TAB ─── */}
+        {activeTab === 'data' && (
+          <>
+            <section>
+              <SectionLabel>Upload</SectionLabel>
+              <CSVUpload />
+              {dataset && (
+                <div className="mt-3 flex items-center gap-2 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-emerald-800 truncate">{dataset.sourceFileName}</p>
+                    <p className="text-xs text-emerald-600">{dataset.rows.length} rows · {dataset.headers.length} columns</p>
+                  </div>
                 </div>
               )}
-            </div>
-          ) : (
-            <p className="text-sm text-gray-500">Upload a CSV file to configure column mapping</p>
-          )}
-        </div>
+            </section>
 
-        <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-4">3. Chart Type</h3>
-          <ChartTypeSelector />
-        </div>
+            {dataset && (
+              <section>
+                <SectionLabel>Column Mapping</SectionLabel>
+                <ColumnMapping />
+                {mappingValidation && (
+                  <div className="mt-4 space-y-2">
+                    {mappingValidation.errors.map((err, i) => (
+                      <div key={i} className="flex items-start gap-2 p-2.5 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">
+                        <span className="mt-0.5">⚠</span><span>{err}</span>
+                      </div>
+                    ))}
+                    {mappingValidation.warnings.map((warn, i) => (
+                      <div key={i} className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-700">
+                        <span className="mt-0.5">ℹ</span><span>{warn}</span>
+                      </div>
+                    ))}
+                    {mappingValidation.isValid && (
+                      <div className="flex items-center gap-2 p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Mapping valid — select a chart type to continue</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </section>
+            )}
+          </>
+        )}
 
-        <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-4">3.5. Title</h3>
-          <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
-              Chart Title
-            </label>
-            <input
-              type="text"
-              id="title"
-              value={title || ''}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter chart title..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-            />
-            <p className="mt-2 text-xs text-gray-500">
-              Leave blank to use the default chart type name
-            </p>
-          </div>
-        </div>
+        {/* ─── CHART TAB ─── */}
+        {activeTab === 'chart' && (
+          <>
+            <section>
+              <SectionLabel>Chart Type</SectionLabel>
+              <ChartTypeSelector />
+            </section>
 
-        <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-4">3.6. Subtitle (Optional)</h3>
-          <div>
-            <label htmlFor="subtitle" className="block text-sm font-medium text-gray-700 mb-2">
-              Chart Subtitle
-            </label>
-            <input
-              type="text"
-              id="subtitle"
-              value={subtitle || ''}
-              onChange={(e) => setSubtitle(e.target.value)}
-              placeholder="Enter an optional subtitle..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-            />
-            <p className="mt-2 text-xs text-gray-500">
-              Leave blank to use the default filename-based subtitle
-            </p>
-          </div>
-        </div>
+            <section>
+              <SectionLabel>Labels</SectionLabel>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Title</label>
+                  <input
+                    type="text"
+                    value={title || ''}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Enter chart title..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Subtitle <span className="text-gray-400 font-normal text-xs">(optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={subtitle || ''}
+                    onChange={(e) => setSubtitle(e.target.value)}
+                    placeholder="Enter subtitle..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Source <span className="text-gray-400 font-normal text-xs">(optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={source || ''}
+                    onChange={(e) => setSource(e.target.value)}
+                    placeholder="e.g., Source: Bloomberg, 2024"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </section>
+          </>
+        )}
 
-        <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-4">3.7. Source Info (Optional)</h3>
-          <div>
-            <label htmlFor="source" className="block text-sm font-medium text-gray-700 mb-2">
-              Source Information
-            </label>
-            <input
-              type="text"
-              id="source"
-              value={source || ''}
-              onChange={(e) => setSource(e.target.value)}
-              placeholder="e.g., Data from XYZ Research, 2024"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-            />
-            <p className="mt-2 text-xs text-gray-500">
-              Source info will be displayed at the bottom left of the chart
-            </p>
-          </div>
-        </div>
+        {/* ─── STYLE TAB ─── */}
+        {activeTab === 'style' && (
+          <>
+            <section>
+              <SectionLabel>Theme</SectionLabel>
+              <ThemeSelector />
+            </section>
 
-        <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-4">4. Style & Theme</h3>
-          <ThemeSelector />
-        </div>
+            <section>
+              <SectionLabel>Advanced</SectionLabel>
+              <button
+                onClick={onOpenAdvanced}
+                disabled={!canExport}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-lg border text-sm font-medium transition-colors ${
+                  canExport
+                    ? 'border-gray-200 text-gray-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700'
+                    : 'border-gray-100 text-gray-300 cursor-not-allowed'
+                }`}
+              >
+                <span>Open Advanced Settings</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+              <p className="mt-2 text-xs text-gray-400">Configure axes, tooltip, legend, zoom and more</p>
+            </section>
+          </>
+        )}
 
-        <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="font-medium text-gray-900 mb-4">5. Export</h3>
-          <ExportControls onExport={handleExport} />
-        </div>
+        {/* ─── EXPORT TAB ─── */}
+        {activeTab === 'export' && (
+          <section>
+            <SectionLabel>Export Chart</SectionLabel>
+            {canExport ? (
+              <ExportControls onExport={handleExport} />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </div>
+                <p className="text-sm text-gray-400">Set up your chart first to enable export</p>
+              </div>
+            )}
+          </section>
+        )}
+
       </div>
     </div>
   );
