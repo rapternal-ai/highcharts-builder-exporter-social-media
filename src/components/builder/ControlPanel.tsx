@@ -148,7 +148,7 @@ const ControlPanel = ({ chartRef }: ControlPanelProps) => {
                     value={title || ''}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Enter chart title..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
@@ -160,7 +160,7 @@ const ControlPanel = ({ chartRef }: ControlPanelProps) => {
                     value={subtitle || ''}
                     onChange={(e) => setSubtitle(e.target.value)}
                     placeholder="Enter subtitle..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
@@ -172,7 +172,7 @@ const ControlPanel = ({ chartRef }: ControlPanelProps) => {
                     value={source || ''}
                     onChange={(e) => setSource(e.target.value)}
                     placeholder="e.g., Source: Bloomberg, 2024"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               </div>

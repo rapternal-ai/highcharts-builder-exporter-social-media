@@ -10,32 +10,24 @@ interface FieldSelectorProps {
   icon?: string;
 }
 
-const FieldSelector = ({ label, value, onChange, options, required, description, icon }: FieldSelectorProps) => {
+const FieldSelector = ({ label, value, onChange, options, required, description }: FieldSelectorProps) => {
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <label className="block text-sm font-medium text-gray-700">
-        <div className="flex items-center space-x-2">
-          {icon && <span>{icon}</span>}
-          <span>{label}</span>
-          {required && <span className="text-red-500">*</span>}
-        </div>
+        {label}{required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
-      
       <select
         value={value || ''}
         onChange={(e) => onChange(e.target.value || undefined)}
-        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
       >
         <option value="">Select column...</option>
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
+          <option key={option} value={option}>{option}</option>
         ))}
       </select>
-      
       {description && (
-        <p className="text-xs text-gray-500">{description}</p>
+        <p className="text-xs text-gray-500 mt-1">{description}</p>
       )}
     </div>
   );
@@ -46,8 +38,8 @@ const ColumnMapping = () => {
 
   if (!dataset) {
     return (
-      <div className="text-center py-6 text-gray-500">
-        <p>Upload a CSV file to configure column mapping</p>
+      <div className="py-6 text-center text-sm text-gray-400">
+        Upload a CSV file to configure column mapping
       </div>
     );
   }
@@ -76,11 +68,8 @@ const ColumnMapping = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h4 className="font-medium text-gray-900 mb-3">
-          {isStockMode ? 'Stock Chart Mapping' : 'Standard Chart Mapping'}
-        </h4>
-        <p className="text-sm text-gray-600 mb-4">
-          Map your CSV columns to chart fields. Required fields are marked with *.
+        <p className="text-xs text-gray-500">
+          Map columns to chart fields. Required fields marked with *.
         </p>
       </div>
 
@@ -110,13 +99,9 @@ const ColumnMapping = () => {
         )}
 
         {/* Y-Axis Fields */}
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <label className="block text-sm font-medium text-gray-700">
-            <div className="flex items-center space-x-2">
-              <span>📈</span>
-              <span>Y-Axis (Values)</span>
-              <span className="text-red-500">*</span>
-            </div>
+            Y-Axis (Values)<span className="text-red-500 ml-0.5">*</span>
           </label>
           
           <div className="space-y-2">
@@ -132,7 +117,7 @@ const ColumnMapping = () => {
                 }
                 updateMapping('yFields', newYFields.length > 0 ? newYFields : undefined);
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">Select primary value column...</option>
               {numericColumns.length > 0 ? numericColumns.map((option) => (
@@ -172,7 +157,7 @@ const ColumnMapping = () => {
                         }
                         updateMapping('yFields', newYFields);
                       }}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="flex-1 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     >
                       <option value="">Select additional series...</option>
                       {numericColumns.map((option) => (
@@ -275,25 +260,25 @@ const ColumnMapping = () => {
       {/* Mapping Summary */}
       {(mapping.xField || mapping.yFields?.length || mapping.dateField) && (
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h5 className="font-medium text-gray-900 mb-2">Mapping Summary</h5>
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">Summary</p>
           <div className="space-y-1 text-sm">
             {mapping.dateField && (
-              <div>📅 <strong>Date:</strong> {mapping.dateField}</div>
+              <div><span className="text-gray-500">Date:</span> {mapping.dateField}</div>
             )}
             {mapping.xField && (
-              <div>📊 <strong>X-Axis:</strong> {mapping.xField}</div>
+              <div><span className="text-gray-500">X-Axis:</span> {mapping.xField}</div>
             )}
             {mapping.yFields && mapping.yFields.length > 0 && (
-              <div>📈 <strong>Y-Axis:</strong> {mapping.yFields.join(', ')}</div>
+              <div><span className="text-gray-500">Y-Axis:</span> {mapping.yFields.join(', ')}</div>
             )}
             {mapping.groupField && (
-              <div>🏷️ <strong>Group By:</strong> {mapping.groupField}</div>
+              <div><span className="text-gray-500">Group By:</span> {mapping.groupField}</div>
             )}
             {isStockMode && mapping.openField && (
-              <div>📊 <strong>OHLC:</strong> O:{mapping.openField}, H:{mapping.highField}, L:{mapping.lowField}, C:{mapping.closeField}</div>
+              <div><span className="text-gray-500">OHLC:</span> O:{mapping.openField}, H:{mapping.highField}, L:{mapping.lowField}, C:{mapping.closeField}</div>
             )}
             {mapping.volumeField && (
-              <div>📊 <strong>Volume:</strong> {mapping.volumeField}</div>
+              <div><span className="text-gray-500">Volume:</span> {mapping.volumeField}</div>
             )}
           </div>
         </div>

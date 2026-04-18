@@ -118,31 +118,29 @@ const AdvancedSettings = () => {
           <button
             key={panel.id}
             onClick={() => setActivePanel(panel.id)}
-            className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`px-3 py-2 text-xs font-medium whitespace-nowrap transition-colors ${
               activePanel === panel.id
                 ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
             }`}
           >
-            <span>{panel.icon}</span>
-            <span>{panel.name}</span>
+            {panel.name}
           </button>
         ))}
       </div>
 
       {/* Panel Content */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto px-4 py-5">
         {activePanel === 'titles' && (
           <div className="space-y-6">
             <div>
-              <h3 className="font-medium text-gray-900 mb-4">Title Settings</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Title Align</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Title Align</label>
                   <select
                     value={titleAlign || 'left'}
                     onChange={(e) => setTitleAlign(e.target.value as 'left' | 'center' | 'right')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="left">Left</option>
                     <option value="center">Center</option>
@@ -150,45 +148,45 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Subtitle Align</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Subtitle Align</label>
                   <select
                     value={subtitleAlign || 'left'}
                     onChange={(e) => setSubtitleAlign(e.target.value as 'left' | 'center' | 'right')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="left">Left</option>
                     <option value="center">Center</option>
                     <option value="right">Right</option>
                   </select>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="titleUseHTML"
                     checked={titleUseHTML || false}
                     onChange={(e) => setTitleUseHTML(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="titleUseHTML" className="text-sm text-gray-700">Title use HTML</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="showCaption"
                     checked={showCaption || false}
                     onChange={(e) => setShowCaption(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="showCaption" className="text-sm text-gray-700">Show caption</label>
                 </div>
                 {showCaption && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Caption Text</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Caption Text</label>
                     <textarea
                       value={captionText || ''}
                       onChange={(e) => setCaptionText(e.target.value)}
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Enter caption text..."
                     />
                   </div>
@@ -201,10 +199,9 @@ const AdvancedSettings = () => {
         {activePanel === 'layout' && (
           <div className="space-y-6">
             <div>
-              <h3 className="font-medium text-gray-900 mb-4">Layout Settings</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Background Color</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Background Color</label>
                   <input
                     type="color"
                     value={backgroundColor || '#ffffff'}
@@ -213,54 +210,54 @@ const AdvancedSettings = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Border Radius (px)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Border Radius (px)</label>
                   <input
                     type="number"
                     value={borderRadius || 0}
                     onChange={(e) => setBorderRadius(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     max="50"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Spacing Preset</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Spacing Preset</label>
                   <select
                     value={spacingPreset || 'normal'}
                     onChange={(e) => setSpacingPreset(e.target.value as 'tight' | 'normal' | 'spacious')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="tight">Tight</option>
                     <option value="normal">Normal</option>
                     <option value="spacious">Spacious</option>
                   </select>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="invertedChart"
                     checked={invertedChart || false}
                     onChange={(e) => setInvertedChart(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="invertedChart" className="text-sm text-gray-700">Inverted chart</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="polar"
                     checked={polar || false}
                     onChange={(e) => setPolar(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="polar" className="text-sm text-gray-700">Polar</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Zoom Type</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Zoom Type</label>
                   <select
                     value={zoomType || 'none'}
                     onChange={(e) => setZoomType(e.target.value as 'none' | 'x' | 'y' | 'xy')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="none">None</option>
                     <option value="x">X</option>
@@ -268,23 +265,23 @@ const AdvancedSettings = () => {
                     <option value="xy">XY</option>
                   </select>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="scrollablePlotArea"
                     checked={scrollablePlotArea || false}
                     onChange={(e) => setScrollablePlotArea(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="scrollablePlotArea" className="text-sm text-gray-700">Scrollable plot area</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="showCredits"
                     checked={showCredits !== false}
                     onChange={(e) => setShowCredits(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="showCredits" className="text-sm text-gray-700">Show credits</label>
                 </div>
@@ -296,24 +293,23 @@ const AdvancedSettings = () => {
         {activePanel === 'xaxis' && (
           <div className="space-y-6">
             <div>
-              <h3 className="font-medium text-gray-900 mb-4">X-Axis Settings</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Axis Title</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Axis Title</label>
                   <input
                     type="text"
                     value={xAxisTitle || ''}
                     onChange={(e) => setXAxisTitle(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter axis title..."
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Axis Type</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Axis Type</label>
                   <select
                     value={xAxisType || 'category'}
                     onChange={(e) => setXAxisType(e.target.value as 'category' | 'linear' | 'datetime' | 'logarithmic')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="category">Category</option>
                     <option value="linear">Linear</option>
@@ -322,11 +318,11 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Label Rotation (°)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Label Rotation (°)</label>
                   <select
                     value={xAxisLabelRotation !== undefined ? xAxisLabelRotation : 0}
                     onChange={(e) => setXAxisLabelRotation(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value={0}>0°</option>
                     <option value={-45}>-45°</option>
@@ -334,50 +330,50 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Label Step</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Label Step</label>
                   <input
                     type="number"
                     value={xAxisLabelStep || 1}
                     onChange={(e) => setXAxisLabelStep(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="1"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Min</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Min</label>
                     <input
                       type="number"
                       value={xAxisMin || ''}
                       onChange={(e) => setXAxisMin(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Max</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Max</label>
                     <input
                       type="number"
                       value={xAxisMax || ''}
                       onChange={(e) => setXAxisMax(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Tick Interval</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Tick Interval</label>
                   <input
                     type="number"
                     value={xAxisTickInterval || ''}
                     onChange={(e) => setXAxisTickInterval(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Date Format</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Date Format</label>
                   <select
                     value={xAxisDateFormat || 'auto'}
                     onChange={(e) => setXAxisDateFormat(e.target.value as 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="auto">Auto (MM/DD/YYYY)</option>
                     <option value="MMM YYYY">Jan 2021</option>
@@ -386,53 +382,53 @@ const AdvancedSettings = () => {
                     <option value="Q YYYY">Q1 2021</option>
                   </select>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="xAxisShowGridlines"
                     checked={xAxisShowGridlines !== false}
                     onChange={(e) => setXAxisShowGridlines(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="xAxisShowGridlines" className="text-sm text-gray-700">Show gridlines</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="xAxisShowAxisLine"
                     checked={xAxisShowAxisLine !== false}
                     onChange={(e) => setXAxisShowAxisLine(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="xAxisShowAxisLine" className="text-sm text-gray-700">Show axis line</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="xAxisReverse"
                     checked={xAxisReverse || false}
                     onChange={(e) => setXAxisReverse(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="xAxisReverse" className="text-sm text-gray-700">Reverse axis</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="xAxisStartOnTick"
                     checked={xAxisStartOnTick !== false}
                     onChange={(e) => setXAxisStartOnTick(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="xAxisStartOnTick" className="text-sm text-gray-700">Start on tick</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="xAxisEndOnTick"
                     checked={xAxisEndOnTick !== false}
                     onChange={(e) => setXAxisEndOnTick(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="xAxisEndOnTick" className="text-sm text-gray-700">End on tick</label>
                 </div>
@@ -444,157 +440,156 @@ const AdvancedSettings = () => {
         {activePanel === 'yaxis' && (
           <div className="space-y-6">
             <div>
-              <h3 className="font-medium text-gray-900 mb-4">Y-Axis Settings</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Primary Axis Title</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Primary Axis Title</label>
                   <input
                     type="text"
                     value={yAxisTitle || ''}
                     onChange={(e) => setYAxisTitle(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter axis title..."
                   />
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="yAxisSecondaryEnabled"
                     checked={yAxisSecondaryEnabled || false}
                     onChange={(e) => setYAxisSecondaryEnabled(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="yAxisSecondaryEnabled" className="text-sm text-gray-700">Secondary axis enabled</label>
                 </div>
                 {yAxisSecondaryEnabled && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Secondary Axis Title</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Secondary Axis Title</label>
                     <input
                       type="text"
                       value={yAxisSecondaryTitle || ''}
                       onChange={(e) => setYAxisSecondaryTitle(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Enter secondary axis title..."
                     />
                   </div>
                 )}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Min</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Min</label>
                     <input
                       type="number"
                       value={yAxisMin || ''}
                       onChange={(e) => setYAxisMin(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Max</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Max</label>
                     <input
                       type="number"
                       value={yAxisMax || ''}
                       onChange={(e) => setYAxisMax(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Soft Min</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Soft Min</label>
                     <input
                       type="number"
                       value={yAxisSoftMin || ''}
                       onChange={(e) => setYAxisSoftMin(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Soft Max</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Soft Max</label>
                     <input
                       type="number"
                       value={yAxisSoftMax || ''}
                       onChange={(e) => setYAxisSoftMax(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Tick Interval</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Tick Interval</label>
                   <input
                     type="number"
                     value={yAxisTickInterval || ''}
                     onChange={(e) => setYAxisTickInterval(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="yAxisOpposite"
                     checked={yAxisOpposite || false}
                     onChange={(e) => setYAxisOpposite(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="yAxisOpposite" className="text-sm text-gray-700">Opposite axis</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="yAxisShowGridlines"
                     checked={yAxisShowGridlines !== false}
                     onChange={(e) => setYAxisShowGridlines(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="yAxisShowGridlines" className="text-sm text-gray-700">Show gridlines</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Gridline Style</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Gridline Style</label>
                   <select
                     value={yAxisGridlineStyle || 'solid'}
                     onChange={(e) => setYAxisGridlineStyle(e.target.value as 'solid' | 'dashed' | 'dotted')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="solid">Solid</option>
                     <option value="dashed">Dashed</option>
                     <option value="dotted">Dotted</option>
                   </select>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="yAxisAllowDecimals"
                     checked={yAxisAllowDecimals !== false}
                     onChange={(e) => setYAxisAllowDecimals(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="yAxisAllowDecimals" className="text-sm text-gray-700">Allow decimals</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Value Prefix</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Value Prefix</label>
                   <input
                     type="text"
                     value={yAxisValuePrefix || ''}
                     onChange={(e) => setYAxisValuePrefix(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="e.g., $"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Value Suffix</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Value Suffix</label>
                   <input
                     type="text"
                     value={yAxisValueSuffix || ''}
                     onChange={(e) => setYAxisValueSuffix(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="e.g., %"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Number Format Preset</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Number Format Preset</label>
                   <select
                     value={yAxisNumberFormat || 'plain'}
                     onChange={(e) => setYAxisNumberFormat(e.target.value as 'plain' | 'currency' | 'percent' | 'thousands' | 'millions' | 'billions')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="plain">Plain number</option>
                     <option value="currency">Currency</option>
@@ -612,14 +607,13 @@ const AdvancedSettings = () => {
         {activePanel === 'series' && (
           <div className="space-y-6">
             <div>
-              <h3 className="font-medium text-gray-900 mb-4">Series Settings</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Stacking</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Stacking</label>
                   <select
                     value={seriesStacking || 'none'}
                     onChange={(e) => setSeriesStacking(e.target.value as 'none' | 'normal' | 'percent')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="none">None</option>
                     <option value="normal">Normal</option>
@@ -627,43 +621,43 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Line Width</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Line Width</label>
                   <input
                     type="number"
                     value={seriesLineWidth || 2}
                     onChange={(e) => setSeriesLineWidth(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     max="10"
                   />
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="seriesMarkerEnabled"
                     checked={seriesMarkerEnabled !== false}
                     onChange={(e) => setSeriesMarkerEnabled(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="seriesMarkerEnabled" className="text-sm text-gray-700">Marker enabled</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Marker Size</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Marker Size</label>
                   <input
                     type="number"
                     value={seriesMarkerSize || 6}
                     onChange={(e) => setSeriesMarkerSize(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     max="20"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Dash Style</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Dash Style</label>
                   <select
                     value={seriesDashStyle || 'Solid'}
                     onChange={(e) => setSeriesDashStyle(e.target.value as 'Solid' | 'ShortDash' | 'Dot' | 'Dash' | 'LongDash')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="Solid">Solid</option>
                     <option value="ShortDash">ShortDash</option>
@@ -673,7 +667,7 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Fill Opacity</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Fill Opacity</label>
                   <input
                     type="range"
                     value={seriesFillOpacity || 0.75}
@@ -686,88 +680,88 @@ const AdvancedSettings = () => {
                   <span className="text-xs text-gray-500">{Math.round((seriesFillOpacity || 0.75) * 100)}%</span>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Border Width</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Border Width</label>
                   <input
                     type="number"
                     value={seriesBorderWidth || 0}
                     onChange={(e) => setSeriesBorderWidth(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     max="5"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Point Padding</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Point Padding</label>
                   <input
                     type="number"
                     value={seriesPointPadding || 0}
                     onChange={(e) => setSeriesPointPadding(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     max="1"
                     step="0.1"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Group Padding</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Group Padding</label>
                   <input
                     type="number"
                     value={seriesGroupPadding || 0}
                     onChange={(e) => setSeriesGroupPadding(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     max="1"
                     step="0.1"
                   />
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="seriesConnectNulls"
                     checked={seriesConnectNulls !== false}
                     onChange={(e) => setSeriesConnectNulls(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="seriesConnectNulls" className="text-sm text-gray-700">Connect nulls</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="seriesAnimation"
                     checked={seriesAnimation !== false}
                     onChange={(e) => setSeriesAnimation(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="seriesAnimation" className="text-sm text-gray-700">Animation</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Animation Duration (ms)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Animation Duration (ms)</label>
                   <input
                     type="number"
                     value={seriesAnimationDuration || 1000}
                     onChange={(e) => setSeriesAnimationDuration(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     max="5000"
                   />
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="seriesShowDataLabels"
                     checked={seriesShowDataLabels || false}
                     onChange={(e) => setSeriesShowDataLabels(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="seriesShowDataLabels" className="text-sm text-gray-700">Show data labels</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="seriesShowInLegend"
                     checked={seriesShowInLegend !== false}
                     onChange={(e) => setSeriesShowInLegend(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="seriesShowInLegend" className="text-sm text-gray-700">Show in legend</label>
                 </div>
@@ -779,24 +773,23 @@ const AdvancedSettings = () => {
         {activePanel === 'legend' && (
           <div className="space-y-6">
             <div>
-              <h3 className="font-medium text-gray-900 mb-4">Legend Settings</h3>
               <div className="space-y-4">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="legendShow"
                     checked={legendShow !== false}
                     onChange={(e) => setLegendShow(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="legendShow" className="text-sm text-gray-700">Show legend</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Legend Position</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Legend Position</label>
                   <select
                     value={legendPosition || 'top'}
                     onChange={(e) => setLegendPosition(e.target.value as 'top' | 'right' | 'bottom' | 'left')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="top">Top</option>
                     <option value="right">Right</option>
@@ -805,11 +798,11 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Horizontal Align</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Horizontal Align</label>
                   <select
                     value={legendHorizontalAlign || 'center'}
                     onChange={(e) => setLegendHorizontalAlign(e.target.value as 'left' | 'center' | 'right')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="left">Left</option>
                     <option value="center">Center</option>
@@ -817,11 +810,11 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Vertical Align</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Vertical Align</label>
                   <select
                     value={legendVerticalAlign || 'top'}
                     onChange={(e) => setLegendVerticalAlign(e.target.value as 'top' | 'middle' | 'bottom')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="top">Top</option>
                     <option value="middle">Middle</option>
@@ -829,28 +822,28 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Legend Layout</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Legend Layout</label>
                   <select
                     value={legendLayout || 'horizontal'}
                     onChange={(e) => setLegendLayout(e.target.value as 'horizontal' | 'vertical')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="horizontal">Horizontal</option>
                     <option value="vertical">Vertical</option>
                   </select>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="legendFloating"
                     checked={legendFloating || false}
                     onChange={(e) => setLegendFloating(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="legendFloating" className="text-sm text-gray-700">Floating legend</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Legend Background Color</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Legend Background Color</label>
                   <input
                     type="color"
                     value={legendBackgroundColor || '#ffffff'}
@@ -858,22 +851,22 @@ const AdvancedSettings = () => {
                     className="w-full h-10 border border-gray-300 rounded-md"
                   />
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="legendBorder"
                     checked={legendBorder || false}
                     onChange={(e) => setLegendBorder(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="legendBorder" className="text-sm text-gray-700">Legend border</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Legend Item Font Size</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Legend Item Font Size</label>
                   <select
                     value={legendItemFontSize || '12px'}
                     onChange={(e) => setLegendItemFontSize(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="10px">10px</option>
                     <option value="12px">12px</option>
@@ -890,85 +883,84 @@ const AdvancedSettings = () => {
         {activePanel === 'tooltip' && (
           <div className="space-y-6">
             <div>
-              <h3 className="font-medium text-gray-900 mb-4">Tooltip Settings</h3>
               <div className="space-y-4">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="tooltipEnabled"
                     checked={tooltipEnabled !== false}
                     onChange={(e) => setTooltipEnabled(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="tooltipEnabled" className="text-sm text-gray-700">Enable tooltip</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="tooltipShared"
                     checked={tooltipShared !== false}
                     onChange={(e) => setTooltipShared(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="tooltipShared" className="text-sm text-gray-700">Shared tooltip</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="tooltipSplit"
                     checked={tooltipSplit || false}
                     onChange={(e) => setTooltipSplit(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="tooltipSplit" className="text-sm text-gray-700">Split tooltip</label>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="tooltipUseHTML"
                     checked={tooltipUseHTML || false}
                     onChange={(e) => setTooltipUseHTML(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="tooltipUseHTML" className="text-sm text-gray-700">Use HTML</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Value Decimals</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Value Decimals</label>
                   <input
                     type="number"
                     value={tooltipValueDecimals !== undefined ? tooltipValueDecimals : 2}
                     onChange={(e) => setTooltipValueDecimals(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     max="10"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Value Prefix</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Value Prefix</label>
                   <input
                     type="text"
                     value={tooltipValuePrefix || ''}
                     onChange={(e) => setTooltipValuePrefix(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="e.g., $"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Value Suffix</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Value Suffix</label>
                   <input
                     type="text"
                     value={tooltipValueSuffix || ''}
                     onChange={(e) => setTooltipValueSuffix(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="e.g., %"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Date Format Preset</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Date Format Preset</label>
                   <select
                     value={tooltipDateFormat || 'auto'}
                     onChange={(e) => setTooltipDateFormat(e.target.value as 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="auto">Auto</option>
                     <option value="MMM YYYY">Jan 2021</option>
@@ -978,11 +970,11 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Tooltip Template Mode</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Tooltip Template Mode</label>
                   <select
                     value={tooltipTemplateMode || 'default'}
                     onChange={(e) => setTooltipTemplateMode(e.target.value as 'default' | 'compact' | 'detailed' | 'custom')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="default">Default</option>
                     <option value="compact">Compact</option>
@@ -991,7 +983,7 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Background Color</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Background Color</label>
                   <input
                     type="color"
                     value={tooltipBackgroundColor || '#ffffff'}
@@ -1000,12 +992,12 @@ const AdvancedSettings = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Border Radius (px)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Border Radius (px)</label>
                   <input
                     type="number"
                     value={tooltipBorderRadius || 3}
                     onChange={(e) => setTooltipBorderRadius(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     max="20"
                   />
@@ -1018,24 +1010,23 @@ const AdvancedSettings = () => {
         {activePanel === 'labels' && (
           <div className="space-y-6">
             <div>
-              <h3 className="font-medium text-gray-900 mb-4">Labels Settings</h3>
               <div className="space-y-4">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="dataLabelsEnabled"
                     checked={dataLabelsEnabled || false}
                     onChange={(e) => setDataLabelsEnabled(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="dataLabelsEnabled" className="text-sm text-gray-700">Data labels enabled</label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Data Label Position</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Data Label Position</label>
                   <select
                     value={dataLabelPosition || 'auto'}
                     onChange={(e) => setDataLabelPosition(e.target.value as 'auto' | 'inside' | 'outside' | 'above')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="auto">Auto</option>
                     <option value="inside">Inside</option>
@@ -1044,11 +1035,11 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Data Label Format Preset</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Data Label Format Preset</label>
                   <select
                     value={dataLabelFormat || 'value'}
                     onChange={(e) => setDataLabelFormat(e.target.value as 'value' | 'percent' | 'category-value' | 'custom')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="value">Value</option>
                     <option value="percent">Percent</option>
@@ -1057,11 +1048,11 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Axis Label Font Size</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Axis Label Font Size</label>
                   <select
                     value={axisLabelFontSize || '12px'}
                     onChange={(e) => setAxisLabelFontSize(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="10px">10px</option>
                     <option value="11px">11px</option>
@@ -1072,7 +1063,7 @@ const AdvancedSettings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Axis Label Color</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Axis Label Color</label>
                   <input
                     type="color"
                     value={axisLabelColor || '#666666'}
@@ -1081,11 +1072,11 @@ const AdvancedSettings = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Label Overflow Handling</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Label Overflow Handling</label>
                   <select
                     value={labelOverflow || 'wrap'}
                     onChange={(e) => setLabelOverflow(e.target.value as 'wrap' | 'truncate' | 'rotate')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="wrap">Wrap</option>
                     <option value="truncate">Truncate</option>
@@ -1100,27 +1091,25 @@ const AdvancedSettings = () => {
         {activePanel === 'zoom' && (
           <div className="space-y-6">
             <div>
-              <h4 className="font-medium text-gray-900 mb-4">Date Range Selector</h4>
-              <p className="text-sm text-gray-600 mb-4">Add a date range selector to zoom into specific time periods.</p>
-
+              <p className="text-xs text-gray-500 mb-3">Add a date range selector to zoom into specific time periods.</p>
               <div className="space-y-4">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="rangeSelectorEnabled"
                     checked={rangeSelectorEnabled || false}
                     onChange={(e) => setRangeSelectorEnabled(e.target.checked)}
-                    className="rounded"
+                    className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                   />
                   <label htmlFor="rangeSelectorEnabled" className="text-sm text-gray-700">Enable Range Selector</label>
                 </div>
 
                 {rangeSelectorEnabled && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Range Buttons</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Range Buttons</label>
                     <div className="space-y-2">
                       {['1m', '3m', '6m', 'ytd', '1y', 'all'].map((button) => (
-                        <label key={button} className="flex items-center space-x-2">
+                        <label key={button} className="flex items-center gap-2">
                           <input
                             type="checkbox"
                             checked={rangeSelectorButtons?.includes(button as any) || false}
@@ -1132,7 +1121,7 @@ const AdvancedSettings = () => {
                                 setRangeSelectorButtons(currentButtons.filter(b => b !== button));
                               }
                             }}
-                            className="rounded"
+                            className="h-4 w-4 rounded border-gray-300 accent-blue-600"
                           />
                           <span className="text-sm text-gray-700">{button.toUpperCase()}</span>
                         </label>

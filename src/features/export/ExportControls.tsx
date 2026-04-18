@@ -152,22 +152,21 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
   return (
     <div className="space-y-6">
       <div>
-        <h4 className="font-medium text-gray-900 mb-2">Export Chart</h4>
-        <p className="text-sm text-gray-600 mb-4">
-          Download your chart as an image file for use in presentations, reports, or web content.
+        <p className="text-xs text-gray-500">
+          Download your chart as an image file.
         </p>
       </div>
 
       {!canExport ? (
-        <div className="text-center py-6 text-gray-500">
-          <p>Complete chart configuration to enable export</p>
+        <div className="py-6 text-center text-sm text-gray-400">
+          Complete chart setup to enable export
         </div>
       ) : (
         <div className="space-y-6">
           {/* Export Format */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
-              Export Format
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Format
             </label>
             <div className="grid grid-cols-2 gap-2">
               {(['png', 'jpeg', 'svg'] as const).map((format) => (
@@ -193,8 +192,8 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
 
           {/* Size Presets */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
-              Size Presets
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Size Preset
             </label>
             <div className="grid grid-cols-1 gap-2">
               {EXPORT_PRESETS.map((presetDef) => (
@@ -224,28 +223,28 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
 
           {/* Custom Dimensions */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
               Custom Dimensions
             </label>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-gray-600 mb-1">Width (px)</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Width (px)</label>
                 <input
                   type="number"
                   value={settings.width}
                   onChange={(e) => setSettings(prev => ({ ...prev, width: parseInt(e.target.value) || 800 }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   min="100"
                   max="4000"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-600 mb-1">Height (px)</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Height (px)</label>
                 <input
                   type="number"
                   value={settings.height}
                   onChange={(e) => setSettings(prev => ({ ...prev, height: parseInt(e.target.value) || 400 }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   min="100"
                   max="4000"
                 />
@@ -255,14 +254,14 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
 
           {/* Filename */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
               Filename
             </label>
             <input
               type="text"
               value={settings.filename}
               onChange={(e) => setSettings(prev => ({ ...prev, filename: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+              className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter filename (without extension)"
             />
             <p className="text-xs text-gray-500 mt-1">
@@ -272,16 +271,16 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
 
           {/* Advanced Options */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
               Advanced Options
             </label>
             <div className="space-y-3">
               <div>
-                <label className="block text-xs text-gray-600 mb-1">Scale Factor</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Scale Factor</label>
                 <select
                   value={settings.scale}
                   onChange={(e) => setSettings(prev => ({ ...prev, scale: parseFloat(e.target.value) }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value={1}>1x (Standard)</option>
                   <option value={2}>2x (High DPI)</option>
@@ -291,7 +290,7 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
 
               {settings.format === 'png' && (
                 <div>
-                  <label className="block text-xs text-gray-600 mb-1">Background Color</label>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Background Color</label>
                   <div className="flex items-center space-x-2">
                     <input
                       type="color"
@@ -303,7 +302,7 @@ const ExportControls = ({ onExport, isExporting = false }: ExportControlsProps) 
                       type="text"
                       value={settings.backgroundColor || '#ffffff'}
                       onChange={(e) => setSettings(prev => ({ ...prev, backgroundColor: e.target.value }))}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      className="flex-1 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="#ffffff"
                     />
                     <button
