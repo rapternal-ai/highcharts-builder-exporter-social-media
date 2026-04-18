@@ -111,15 +111,9 @@ const AdvancedSettings = () => {
   ];
 
   return (
-    <div className="h-full flex flex-col bg-white border-l border-gray-200">
-      {/* Panel Header */}
-      <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
-        <h2 className="text-lg font-semibold text-gray-900">Advanced Settings</h2>
-        <p className="text-sm text-gray-600">Fine-tune chart appearance and behavior</p>
-      </div>
-
+    <div className="h-full flex flex-col">
       {/* Panel Navigation */}
-      <div className="flex border-b border-gray-200 overflow-x-auto">
+      <div className="flex border-b border-gray-200 overflow-x-auto flex-shrink-0">
         {panels.map((panel) => (
           <button
             key={panel.id}

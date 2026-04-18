@@ -12,7 +12,6 @@ import type { ExportSettings } from '../../features/export/ExportControls';
 
 interface ControlPanelProps {
   chartRef?: React.RefObject<any>;
-  onOpenAdvanced?: () => void;
 }
 
 
@@ -28,7 +27,7 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">{children}</h3>
 );
 
-const ControlPanel = ({ chartRef, onOpenAdvanced }: ControlPanelProps) => {
+const ControlPanel = ({ chartRef }: ControlPanelProps) => {
   const [activeTab, setActiveTab] = useState('data');
   const { mode, dataset, mapping, title, setTitle, subtitle, setSubtitle, source, setSource } = useBuilderStore();
 
@@ -65,7 +64,24 @@ const ControlPanel = ({ chartRef, onOpenAdvanced }: ControlPanelProps) => {
         ))}
       </div>
 
-      {/* Tab Content */}
+      {/* Advanced Settings Tab — rendered directly, no padding wrapper */}
+      {activeTab === 'advanced' && (
+        <div className="flex-1 overflow-hidden">
+          {canExport ? (
+            <AdvancedSettings />
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center px-5">
+              <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </div>
+              <p className="text-sm text-gray-400">Set up your chart first to access advanced settings</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* All other tabs — padded content wrapper */}
+      {activeTab !== 'advanced' && (
       <div className="flex-1 overflow-y-auto px-5 py-5 space-y-7">
 
         {/* ─── DATA TAB ─── */}
@@ -172,22 +188,6 @@ const ControlPanel = ({ chartRef, onOpenAdvanced }: ControlPanelProps) => {
           </section>
         )}
 
-        {/* ─── ADVANCED TAB ─── */}
-        {activeTab === 'advanced' && (
-          <section>
-            {canExport ? (
-              <AdvancedSettings />
-            ) : (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                </div>
-                <p className="text-sm text-gray-400">Set up your chart first to access advanced settings</p>
-              </div>
-            )}
-          </section>
-        )}
-
         {/* ─── EXPORT TAB ─── */}
         {activeTab === 'export' && (
           <section>
@@ -206,6 +206,8 @@ const ControlPanel = ({ chartRef, onOpenAdvanced }: ControlPanelProps) => {
         )}
 
       </div>
+      )}
+
     </div>
   );
 };
