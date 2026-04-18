@@ -518,6 +518,8 @@ export function generateHighchartsOptions(
   // Configure tooltip
   const decimals = tooltipValueDecimals !== undefined ? tooltipValueDecimals : 2;
   const isDateField = mapping.xField && dataset.inferredTypes[mapping.xField] === 'date';
+  const valuePrefix = tooltipValuePrefix || '';
+  const valueSuffix = tooltipValueSuffix || '';
 
   options.tooltip = {
     enabled: tooltipEnabled !== false,
@@ -525,8 +527,8 @@ export function generateHighchartsOptions(
     split: tooltipSplit || false,
     useHTML: tooltipUseHTML || false,
     valueDecimals: decimals,
-    valuePrefix: tooltipValuePrefix || '',
-    valueSuffix: tooltipValueSuffix || '',
+    valuePrefix: valuePrefix,
+    valueSuffix: valueSuffix,
     backgroundColor: tooltipBackgroundColor || '#ffffff',
     borderRadius: tooltipBorderRadius || 3,
     style: {
@@ -544,11 +546,11 @@ export function generateHighchartsOptions(
       if (this.points) {
         // Shared tooltip (multiple series)
         this.points.forEach((point: any) => {
-          result += `<span style="color:${point.color}">●</span> ${point.series.name}: <b>${point.y.toFixed(decimals)}</b><br/>`;
+          result += `<span style="color:${point.color}">●</span> ${point.series.name}: <b>${valuePrefix}${point.y.toFixed(decimals)}${valueSuffix}</b><br/>`;
         });
       } else {
         // Single point tooltip
-        result += `<span style="color:${this.color}">●</span> ${this.series.name}: <b>${this.y.toFixed(decimals)}</b><br/>`;
+        result += `<span style="color:${this.color}">●</span> ${this.series.name}: <b>${valuePrefix}${this.y.toFixed(decimals)}${valueSuffix}</b><br/>`;
       }
       return result;
     }
