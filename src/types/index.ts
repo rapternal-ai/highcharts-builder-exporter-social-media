@@ -97,6 +97,7 @@ export type BuilderState = {
   xAxisReverse?: boolean;
   xAxisStartOnTick?: boolean;
   xAxisEndOnTick?: boolean;
+  xAxisDateFormat?: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom';
   yAxisTitle?: string;
   yAxisSecondaryEnabled?: boolean;
   yAxisSecondaryTitle?: string;
@@ -142,7 +143,7 @@ export type BuilderState = {
   tooltipValueDecimals?: number;
   tooltipValuePrefix?: string;
   tooltipValueSuffix?: string;
-  tooltipDateFormat?: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'custom';
+  tooltipDateFormat?: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom';
   tooltipTemplateMode?: 'default' | 'compact' | 'detailed' | 'custom';
   tooltipBackgroundColor?: string;
   tooltipBorderRadius?: number;

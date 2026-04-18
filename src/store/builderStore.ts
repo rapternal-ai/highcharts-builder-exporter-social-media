@@ -38,6 +38,7 @@ interface BuilderStore extends BuilderState {
   setXAxisReverse: (reverse: boolean) => void;
   setXAxisStartOnTick: (start: boolean) => void;
   setXAxisEndOnTick: (end: boolean) => void;
+  setXAxisDateFormat: (format: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom') => void;
   setYAxisTitle: (title: string) => void;
   setYAxisSecondaryEnabled: (enabled: boolean) => void;
   setYAxisSecondaryTitle: (title: string) => void;
@@ -83,7 +84,7 @@ interface BuilderStore extends BuilderState {
   setTooltipValueDecimals: (decimals: number) => void;
   setTooltipValuePrefix: (prefix: string) => void;
   setTooltipValueSuffix: (suffix: string) => void;
-  setTooltipDateFormat: (format: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'custom') => void;
+  setTooltipDateFormat: (format: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom') => void;
   setTooltipTemplateMode: (mode: 'default' | 'compact' | 'detailed' | 'custom') => void;
   setTooltipBackgroundColor: (color: string) => void;
   setTooltipBorderRadius: (radius: number) => void;
@@ -146,6 +147,7 @@ export const useBuilderStore = create<BuilderStore>((set) => ({
   setXAxisReverse: (xAxisReverse) => set({ xAxisReverse }),
   setXAxisStartOnTick: (xAxisStartOnTick) => set({ xAxisStartOnTick }),
   setXAxisEndOnTick: (xAxisEndOnTick) => set({ xAxisEndOnTick }),
+  setXAxisDateFormat: (xAxisDateFormat) => set({ xAxisDateFormat }),
   setYAxisTitle: (yAxisTitle) => set({ yAxisTitle }),
   setYAxisSecondaryEnabled: (yAxisSecondaryEnabled) => set({ yAxisSecondaryEnabled }),
   setYAxisSecondaryTitle: (yAxisSecondaryTitle) => set({ yAxisSecondaryTitle }),

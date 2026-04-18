@@ -32,6 +32,7 @@ const AdvancedSettings = () => {
     xAxisReverse, setXAxisReverse,
     xAxisStartOnTick, setXAxisStartOnTick,
     xAxisEndOnTick, setXAxisEndOnTick,
+    xAxisDateFormat, setXAxisDateFormat,
     // Y-Axis settings
     yAxisTitle, setYAxisTitle,
     yAxisSecondaryEnabled, setYAxisSecondaryEnabled,
@@ -376,6 +377,20 @@ const AdvancedSettings = () => {
                     onChange={(e) => setXAxisTickInterval(Number(e.target.value))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                   />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Date Format</label>
+                  <select
+                    value={xAxisDateFormat || 'auto'}
+                    onChange={(e) => setXAxisDateFormat(e.target.value as 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  >
+                    <option value="auto">Auto (MM/DD/YYYY)</option>
+                    <option value="MMM YYYY">Jan 2021</option>
+                    <option value="MMM D, YYYY">Jan 5, 2021</option>
+                    <option value="YYYY-MM-DD">2021-01-05</option>
+                    <option value="Q YYYY">Q1 2021</option>
+                  </select>
                 </div>
                 <div className="flex items-center space-x-3">
                   <input
@@ -958,14 +973,14 @@ const AdvancedSettings = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Date Format Preset</label>
                   <select
                     value={tooltipDateFormat || 'auto'}
-                    onChange={(e) => setTooltipDateFormat(e.target.value as 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'custom')}
+                    onChange={(e) => setTooltipDateFormat(e.target.value as 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom')}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                   >
                     <option value="auto">Auto</option>
-                    <option value="MMM YYYY">MMM YYYY</option>
-                    <option value="MMM D, YYYY">MMM D, YYYY</option>
-                    <option value="YYYY-MM-DD">YYYY-MM-DD</option>
-                    <option value="custom">Custom</option>
+                    <option value="MMM YYYY">Jan 2021</option>
+                    <option value="MMM D, YYYY">Jan 5, 2021</option>
+                    <option value="YYYY-MM-DD">2021-01-05</option>
+                    <option value="Q YYYY">Q1 2021</option>
                   </select>
                 </div>
                 <div>

@@ -50,6 +50,7 @@ export function generateHighchartsOptions(
   xAxisReverse?: boolean,
   xAxisStartOnTick?: boolean,
   xAxisEndOnTick?: boolean,
+  xAxisDateFormat?: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom',
   yAxisTitle?: string,
   yAxisSecondaryEnabled?: boolean,
   yAxisSecondaryTitle?: string,
@@ -95,7 +96,7 @@ export function generateHighchartsOptions(
   tooltipValueDecimals?: number,
   tooltipValuePrefix?: string,
   tooltipValueSuffix?: string,
-  tooltipDateFormat?: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'custom',
+  tooltipDateFormat?: 'auto' | 'MMM YYYY' | 'MMM D, YYYY' | 'YYYY-MM-DD' | 'Q YYYY' | 'custom',
   tooltipTemplateMode?: 'default' | 'compact' | 'detailed' | 'custom',
   tooltipBackgroundColor?: string,
   tooltipBorderRadius?: number,
@@ -356,10 +357,30 @@ export function generateHighchartsOptions(
             overflow: labelOverflow || 'wrap',
             formatter: function() {
               const date = new Date(this.value);
-              const month = String(date.getMonth() + 1).padStart(2, '0');
-              const day = String(date.getDate()).padStart(2, '0');
-              const year = date.getFullYear();
-              return `${month}/${day}/${year}`;
+              const format = xAxisDateFormat || 'auto';
+
+              if (format === 'Q YYYY') {
+                const quarter = Math.floor(date.getMonth() / 3) + 1;
+                const year = date.getFullYear();
+                return `Q${quarter} ${year}`;
+              } else if (format === 'MMM YYYY') {
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                return `${months[date.getMonth()]} ${date.getFullYear()}`;
+              } else if (format === 'MMM D, YYYY') {
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+              } else if (format === 'YYYY-MM-DD') {
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${year}-${month}-${day}`;
+              } else {
+                // Default: MM/DD/YYYY
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${month}/${day}/${year}`;
+              }
             }
           },
           min: xAxisMin,
@@ -522,6 +543,7 @@ export function generateHighchartsOptions(
   const isDateField = mapping.xField && dataset.inferredTypes[mapping.xField] === 'date';
   const valuePrefix = tooltipValuePrefix || '';
   const valueSuffix = tooltipValueSuffix || '';
+  const tooltipFormat = tooltipDateFormat || 'auto';
 
   options.tooltip = {
     enabled: tooltipEnabled !== false,
@@ -541,7 +563,24 @@ export function generateHighchartsOptions(
       let xAxisValue = this.key || this.x;
       if (isDateField && typeof xAxisValue === 'number') {
         const date = new Date(xAxisValue);
-        xAxisValue = date.toLocaleDateString();
+        if (tooltipFormat === 'Q YYYY') {
+          const quarter = Math.floor(date.getMonth() / 3) + 1;
+          const year = date.getFullYear();
+          xAxisValue = `Q${quarter} ${year}`;
+        } else if (tooltipFormat === 'MMM YYYY') {
+          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          xAxisValue = `${months[date.getMonth()]} ${date.getFullYear()}`;
+        } else if (tooltipFormat === 'MMM D, YYYY') {
+          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          xAxisValue = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+        } else if (tooltipFormat === 'YYYY-MM-DD') {
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          const year = date.getFullYear();
+          xAxisValue = `${year}-${month}-${day}`;
+        } else {
+          xAxisValue = date.toLocaleDateString();
+        }
       }
 
       let result = '<span style="font-size: 10px">' + xAxisValue + '</span><br/>';
