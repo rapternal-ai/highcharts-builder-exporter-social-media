@@ -1,16 +1,12 @@
-import { useState } from 'react';
 import { useRef } from 'react';
 import { useBuilderStore } from './store/builderStore';
 import ControlPanel from './components/builder/ControlPanel';
 import CSVPreview from './features/csv/CSVPreview';
 import ChartPreview from './components/preview/ChartPreview';
-import AdvancedSettings from './components/builder/AdvancedSettings';
 
 function App() {
   const { mode, setMode, dataset, mapping, preset } = useBuilderStore();
   const chartRef = useRef<any>(null);
-  const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
-
   const canShowChart = dataset && mapping.yFields && mapping.yFields.length > 0 && preset;
 
   return (
@@ -45,23 +41,6 @@ function App() {
             </button>
           </div>
 
-          {/* Advanced Settings Button */}
-          {canShowChart && (
-            <button
-              onClick={() => setShowAdvancedSettings(!showAdvancedSettings)}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
-                showAdvancedSettings
-                  ? 'bg-blue-50 border-blue-300 text-blue-700'
-                  : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:text-gray-900'
-              }`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="3"/>
-                <path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/>
-              </svg>
-              <span>Advanced</span>
-            </button>
-          )}
         </div>
       </header>
 
@@ -69,7 +48,7 @@ function App() {
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar */}
         <div className="w-96 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col overflow-hidden">
-          <ControlPanel chartRef={chartRef} onOpenAdvanced={() => setShowAdvancedSettings(true)} />
+          <ControlPanel chartRef={chartRef} />
         </div>
 
         {/* Right Preview Area */}
@@ -106,32 +85,6 @@ function App() {
             </div>
           )}
 
-          {/* Advanced Settings Slide-over */}
-          {showAdvancedSettings && (
-            <>
-              <div
-                className="absolute inset-0 bg-black/20 z-10"
-                onClick={() => setShowAdvancedSettings(false)}
-              />
-              <div className="absolute top-0 right-0 h-full w-[700px] bg-white border-l border-gray-200 z-20 flex flex-col shadow-2xl">
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 flex-shrink-0">
-                  <h2 className="text-base font-semibold text-gray-900">Advanced Settings</h2>
-                  <button
-                    onClick={() => setShowAdvancedSettings(false)}
-                    className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <line x1="18" y1="6" x2="6" y2="18"/>
-                      <line x1="6" y1="6" x2="18" y2="18"/>
-                    </svg>
-                  </button>
-                </div>
-                <div className="flex-1 overflow-y-auto">
-                  <AdvancedSettings />
-                </div>
-              </div>
-            </>
-          )}
         </div>
       </div>
     </div>
