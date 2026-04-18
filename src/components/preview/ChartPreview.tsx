@@ -48,9 +48,9 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
     });
   }, []);
 
-  // Initialize Highstock module for stock chart navigator
+  // Initialize Highstock module for stock chart navigator and range selector
   useEffect(() => {
-    if (mode === 'stock') {
+    if (mode === 'stock' || rangeSelectorEnabled) {
       import('highcharts/modules/stock').then((module) => {
         if (typeof module.default === 'function') {
           module.default(Highcharts);
@@ -60,7 +60,7 @@ const ChartPreview = ({ chartRef: externalChartRef }: ChartPreviewProps) => {
         console.error('Failed to load stock module:', err);
       });
     }
-  }, [mode]);
+  }, [mode, rangeSelectorEnabled]);
 
   // Dynamically import HighchartsReact to avoid module resolution issues
   useEffect(() => {

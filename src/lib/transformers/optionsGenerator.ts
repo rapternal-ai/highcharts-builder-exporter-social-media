@@ -619,6 +619,11 @@ export function generateHighchartsOptions(
       buttons: buttonConfig,
       selected: buttonConfig.length - 1 // Select 'All' by default
     };
+
+    // Range selector requires datetime xAxis
+    if (options.xAxis && !isStockChart) {
+      options.xAxis.type = 'datetime';
+    }
   }
 
   // Stock chart specific navigator
